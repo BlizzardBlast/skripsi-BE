@@ -53,9 +53,15 @@ class LoginController extends BaseController
     // return user data for FE
     public function get_user_data(){
         if(!Auth::check()){return response()->json(null,200);}
+
+        $user = Auth::user();
+        $specific = [
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
         
-        $specific = Auth::user()->only('username', 'email');
         return response()->json($specific);
+        
     }
 
 }
