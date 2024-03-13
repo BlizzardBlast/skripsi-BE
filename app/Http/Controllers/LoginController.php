@@ -53,7 +53,15 @@ class LoginController extends BaseController
 
             // success
             if (Auth::attempt($valid)) {
-                return response()->json(['message' => 'Sign In Successful!'], 200);
+                return response()->json(
+                    ['message' => 'Sign In Successful!'],
+                    200,
+                    [
+                        'Access-Control-Allow-Origin', '*',
+                        'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS',
+                        'Access-Control-Allow-Headers', 'Content-Type, Authorization'
+                    ]
+                );
             }
         } catch (Exception $e) {
             // fail
