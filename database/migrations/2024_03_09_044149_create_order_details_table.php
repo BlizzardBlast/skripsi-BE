@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('order_details', function (Blueprint $table) {
-            $table->int('quantity');
+            $table->integer('quantity');
             $table->foreignId('order_id')->nullable()->references('id')->on('orders')->onDelete('no action')->onUpdate('no action');
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->timestamps();
