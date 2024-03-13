@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/namaurl', [LoginController::class, 'signin']);
+Route::post('/sign-in', [LoginController::class, 'signin']);
