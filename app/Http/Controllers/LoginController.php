@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -37,23 +38,27 @@ class LoginController extends BaseController
     // sign in
     public function signin(Request $request)
     {
-        $valid = $request->validate([
-            'email' => ['required', 'email:dns'],
-            'password' => ['required']
-        ]);
+        $valid = null;
 
-        // remember email
-        if ($request->checkbox) {
-            Cookie::queue('mycookie', $request->email, 120);
+        try {
+            $valid = $request->validate([
+                'email' => ['required', 'email:dns'],
+                'password' => ['required']
+            ]);
+
+            // remember email
+            // if ($request->checkbox) {
+            //     Cookie::queue('mycookie', $request->email, 120);
+            // }
+
+            // success
+            if (Auth::attempt($valid)) {
+                return response()->json(['message' => 'Sign In Successful!'], 200);
+            }
+        } catch (Exception $e) {
+            // fail
+            return response()->json(['message' => 'Sign In Failed.'], 422);
         }
-
-        // success
-        if (Auth::attempt($valid)) {
-            return redirect('/mainmenu');
-        }
-
-        // fail
-        return back()->withErrors('loginError', 'login faileeddd');
     }
 
     // return user data for FE
