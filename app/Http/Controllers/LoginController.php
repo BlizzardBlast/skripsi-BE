@@ -51,37 +51,34 @@ class LoginController extends BaseController
             //     Cookie::queue('mycookie', $request->email, 120);
             // }
 
-            // success
             if (Auth::attempt($valid)) {
                 return response()->json(
                     ['message' => 'Sign In Successful!'],
-                    200,
-                    [
-                        'Access-Control-Allow-Origin', '*',
-                        'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS',
-                        'Access-Control-Allow-Headers', 'Content-Type, Authorization'
-                    ]
+                    200
                 );
             }
         } catch (Exception $e) {
-            // fail
-            return response()->json(['message' => 'Sign In Failed.'], 422);
+            return response()->json(['message' => 'Sign In Failed.'], 400);
         }
     }
 
     // return user data for FE
     public function get_user_data()
     {
-        if (!Auth::check()) {
-            return response()->json(null, 200);
+        try {
+            if (!Auth::check()) {
+                return response()->json(null, 200);
+            }
+
+            $user = Auth::user();
+            $specific = [
+                'username' => $user->username,
+                'email' => $user->email,
+            ];
+
+            return response()->json($specific, 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Get User Data Failed.'], 400);
         }
-
-        $user = Auth::user();
-        $specific = [
-            'username' => $user->username,
-            'email' => $user->email,
-        ];
-
-        return response()->json($specific);
     }
 }
