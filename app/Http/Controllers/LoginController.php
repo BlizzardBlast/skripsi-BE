@@ -18,21 +18,31 @@ class LoginController extends BaseController
 
     // sign up
     // password: min 8, 1 lower, 1 upper, 1 digit
-    public function signup(Request $request)
+    public function daftar(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'username' => 'required|min:3|max:255|unique:users',
-            'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:8|max:255|regex:/^(?=.[a-z])(?=.[A-Z])(?=.*\d).{8,}$/',
-        ]);
-
-        $validatedData['password'] = bcrypt($validatedData['password']);
+        try {
 
 
-        User::create($validatedData);
+            $validatedData = $request->validate([
+                'name' => 'required|min:3|max:255',
+                'username' => 'required|min:3|max:255',
+                'email' => 'required|email:dns|unique:users',
+                'password' => 'required|min:8|max:255|regex:/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/'
+                // 'name' => 'required',
+                // 'username' => 'required',
+                // 'email' => 'required',
+                // 'password' => 'required'
+            ]);
 
-        return redirect('/signIn');
+            $validatedData['password'] = bcrypt($validatedData['password']);
+
+            User::create($validatedData);
+
+            return response()->json(['message' => 'Sign up Success.'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Sign up Failed.'], 400);
+
+        }
     }
 
     // sign in
