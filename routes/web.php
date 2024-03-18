@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::post('/sign-in', [LoginController::class, 'sign-in']);
-Route::post('/sign-up', [LoginController::class, 'sign-up']);
+Route::post('/sign-in', [LoginController::class, 'signIn']);
+Route::post('/sign-up', [LoginController::class, 'signUp']);
 
 
 Route::get('/getUserData', [LoginController::class, 'getUserData']);
@@ -29,6 +29,4 @@ Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
 Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
 Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
 
-Route::get('/filterByBean/{bean}',[ProductController::class,'filterByBean']);
-
-
+Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);

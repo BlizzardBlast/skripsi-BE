@@ -18,7 +18,7 @@ class LoginController extends BaseController
 
     // sign up
     // password: min 8, 1 lower, 1 upper, 1 digit
-    public function daftar(Request $request)
+    public function signUp(Request $request)
     {
         try {
 
@@ -41,12 +41,11 @@ class LoginController extends BaseController
             return response()->json(['message' => 'Sign up Success.'], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Sign up Failed.'], 400);
-
         }
     }
 
     // sign in
-    public function signin(Request $request)
+    public function signIn(Request $request)
     {
         $valid = null;
 
