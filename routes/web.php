@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,16 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::post('/sign-in', [LoginController::class, 'signin']);
-Route::post('/sign-up', [LoginController::class, 'daftar']);
+Route::post('/sign-in', [LoginController::class, 'sign-in']);
+Route::post('/sign-up', [LoginController::class, 'sign-up']);
+
+
+Route::get('/getUserData', [LoginController::class, 'getUserData']);
+
+Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
+Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
+Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
+
+Route::get('/filterByBean/{bean}',[ProductController::class,'filterByBean']);
+
+

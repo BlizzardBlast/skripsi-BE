@@ -56,10 +56,7 @@ class LoginController extends BaseController
                 'password' => ['required']
             ]);
 
-            // remember email
-            // if ($request->checkbox) {
-            //     Cookie::queue('mycookie', $request->email, 120);
-            // }
+
 
             if (Auth::attempt($valid)) {
                 return response()->json(
@@ -73,7 +70,7 @@ class LoginController extends BaseController
     }
 
     // return user data for FE
-    public function get_user_data()
+    public function getUserData()
     {
         try {
             if (!Auth::check()) {

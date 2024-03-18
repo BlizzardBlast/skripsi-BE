@@ -18,6 +18,7 @@ class Product extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'type',
         'price',
         'description'
@@ -32,7 +33,7 @@ class Product extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        
+
     ];
 
     /**
@@ -41,6 +42,6 @@ class Product extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        
+
     ];
 }
