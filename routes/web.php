@@ -19,14 +19,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::post('/sign-in', [LoginController::class, 'signIn']);
-Route::post('/sign-up', [LoginController::class, 'signUp']);
+Route::post('/api/sign-in', [LoginController::class, 'signIn']);
+Route::post('/api/sign-up', [LoginController::class, 'signUp']);
 
 
-Route::get('/getUserData', [LoginController::class, 'getUserData']);
+Route::get('/api/getUserData', [LoginController::class, 'getUserData']);
 
-Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
-Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
-Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
+Route::get('/api/getProduct', [ProductController::class, 'getAllProduct']);
+Route::get('/api/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
+Route::get('/api/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
 
-Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
+Route::get('/api/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
