@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/api/sign-in', [LoginController::class, 'signIn']);
 Route::post('/api/sign-up', [LoginController::class, 'signUp']);
+Route::post('/api/sign-out', [LoginController::class, 'signOut']);
+
 
 
 Route::get('/api/getUserData', [LoginController::class, 'getUserData']);
