@@ -87,8 +87,10 @@ class LoginController extends BaseController
 
             $user = Auth::user();
             $specific = [
-                'username' => $user->username,
+                'id' => $user->id,
                 'email' => $user->email,
+                'username' => $user->username,
+                'preferences' => $user->preferences
             ];
 
             return response()->json($specific, 200);
