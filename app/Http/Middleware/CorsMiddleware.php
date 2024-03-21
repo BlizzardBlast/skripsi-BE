@@ -16,10 +16,26 @@ class CorsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request)
-            ->header('Access-Control-Allow-Origin', 'https://kofebin.vercel.app')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->header('Access-Control-Headers', 'Accept,Authorization,Content-Type')
-            ->header('Access-Control-Allow-Credentials', 'true');
+
+        $headers = [
+            'Access-Control-Allow-Origin' => 'https://kofebin.vercel.app',
+            'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Accept,Content-Type, Authorization',
+            'Access-Control-Max-Age' => '86400', // 24 hours
+            'Access-Control-Allow-Credentials' => 'true'
+        ];
+
+        if ($request->isMethod('OPTIONS')) {
+            return response()->json('OK', 200, $headers);
+        }
+
+        $response = $next($request);
+
+        foreach ($headers as $key => $value) {
+            $response->header($key, $value);
+        }
+
+        return $response;
+
     }
 }
