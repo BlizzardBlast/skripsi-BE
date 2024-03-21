@@ -23,7 +23,7 @@ return [
 
     'allowed_origins_patterns' => ["*localhost*"],
 
-    'allowed_headers' => ['x-xsrf-token'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
