@@ -19,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::group([
-    'middleware' => ['api', 'cors'],
-], function () {
+Route::group(['middleware' => 'cors',], function () {
     Route::post('/api/sign-in', [LoginController::class, 'signIn']);
     Route::post('/api/sign-up', [LoginController::class, 'signUp']);
     Route::post('/api/sign-out', [LoginController::class, 'signOut']);
