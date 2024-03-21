@@ -21,9 +21,9 @@ return [
 
     'allowed_origins' => ['https://kofebin.vercel.app', 'http://localhost:5173'],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => ["*localhost*"],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['x-xsrf-token'],
 
     'exposed_headers' => [],
 
