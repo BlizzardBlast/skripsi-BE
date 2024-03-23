@@ -38,7 +38,7 @@ class CorsMiddleware
         // return $response;
 
         // Define the allowed origin for your frontend
-        $allowedOrigins = ['https://kofebin.vercel.app'];
+        $allowedOrigins = ['https://kofebin.vercel.app', 'http://localhost:5173'];
 
         // Check if the request origin is allowed
         $origin = $request->headers->get('Origin');
