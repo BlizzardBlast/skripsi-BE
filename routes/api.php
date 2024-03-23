@@ -20,14 +20,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/sign-in', [LoginController::class, 'signIn']);
-Route::post('/sign-up', [LoginController::class, 'signUp']);
-Route::post('/sign-out', [LoginController::class, 'signOut']);
+// Route::post('/sign-in', [LoginController::class, 'signIn']);
+// Route::post('/sign-up', [LoginController::class, 'signUp']);
+// Route::post('/sign-out', [LoginController::class, 'signOut']);
 
-Route::get('/getUserData', [LoginController::class, 'getUserData']);
+// Route::get('/getUserData', [LoginController::class, 'getUserData']);
 
-Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
-Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
-Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
+// Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
+// Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
+// Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
 
-Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
+// Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
