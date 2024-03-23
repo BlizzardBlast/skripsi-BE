@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $coffeeBeanType = $bean;
 
-        $filterProduct = Product::where('type',$coffeeBeanType)->get();
+        $filterProduct = Product::where('type', $coffeeBeanType)->get();
         return response()->json($filterProduct);
     }
 

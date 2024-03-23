@@ -19,7 +19,8 @@ class LoginController extends BaseController
     // sign up
     // password: min 8, 1 lower, 1 upper, 1 digit
 
-    public function signOut(Request $request){
+    public function signOut(Request $request)
+    {
         Auth::guard(name: 'web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
