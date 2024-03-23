@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://kofebin.vercel.app', 'http://localhost:5173'],
+    'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => ["*localhost*"],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
