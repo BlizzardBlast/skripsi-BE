@@ -19,6 +19,9 @@ class Product extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'subname',
+        'origin',
+        'characteristic',
         'type',
         'price',
         'description'
