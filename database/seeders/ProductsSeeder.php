@@ -18,6 +18,9 @@ class ProductsSeeder extends Seeder
         //
         DB::table('products')->insert([
             'name' => 'AkopiA',
+            'subname' => 'Canis Alvares',
+            'origin' => 'Sumatra',
+            'characteristic' => 'Fruity Acid',
             'type' => 'Arabica',
             'price' => '5000',
             'description' => 'dgfr'
@@ -26,6 +29,9 @@ class ProductsSeeder extends Seeder
 
         DB::table('products')->insert([
             'name' => 'BkopiB',
+            'subname' => 'Canis Betares',
+            'origin' => 'Sulawesi',
+            'characteristic' => 'Fruity Acid',
             'type' => 'Robusta',
             'price' => '7000',
             'description' => 'dgfr'
@@ -34,6 +40,9 @@ class ProductsSeeder extends Seeder
 
         DB::table('products')->insert([
             'name' => 'CkopiC',
+            'subname' => 'Canis Charles',
+            'origin' => 'Papua',
+            'characteristic' => 'Fruity Acid',
             'type' => 'Liberica',
             'price' => '9000',
             'description' => 'dgfr'
