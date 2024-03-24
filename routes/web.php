@@ -19,14 +19,16 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::post('/api/sign-in', [LoginController::class, 'signIn']);
-Route::post('/api/sign-up', [LoginController::class, 'signUp']);
-Route::post('/api/sign-out', [LoginController::class, 'signOut']);
+Route::prefix('/api')->group(function () {
+    Route::post('/sign-in', [LoginController::class, 'signIn']);
+    Route::post('/sign-up', [LoginController::class, 'signUp']);
+    Route::post('/sign-out', [LoginController::class, 'signOut']);
 
-Route::get('/api/getUserData', [LoginController::class, 'getUserData']);
+    Route::get('/getUserData', [LoginController::class, 'getUserData']);
 
-Route::get('/api/getProduct', [ProductController::class, 'getAllProduct']);
-Route::get('/api/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
-Route::get('/api/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
+    Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
+    Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
+    Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
 
-Route::get('/api/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
+    Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
+});
