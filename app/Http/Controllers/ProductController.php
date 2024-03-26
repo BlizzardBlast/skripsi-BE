@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -21,6 +23,26 @@ class ProductController extends Controller
         $filterProduct = Product::where('type', $coffeeBeanType)->get();
         return response()->json($filterProduct);
     }
+
+    public function getProductImage($id)
+    {
+        $path = 'public/storage/coffeeImage/' . $id . '.png';
+
+
+        if (Storage::disk('public')->exists($path)) {
+
+            $file = Storage::disk('public')->get($path);
+
+            $mimeType = 'image/png';
+
+            return Response::make($file, 200, ['Content-Type' => $mimeType]);
+
+        } else {
+            abort(404);
+        }
+    }
+
+
 
     // public function getSortedProductByName()
     // {

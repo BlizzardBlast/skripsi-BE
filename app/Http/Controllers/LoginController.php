@@ -89,6 +89,7 @@ class LoginController extends BaseController
             $user = Auth::user();
             $specific = [
                 'id' => $user->id,
+                'name' => $user->name,
                 'email' => $user->email,
                 'username' => $user->username,
                 'preferences' => $user->preferences
@@ -98,5 +99,10 @@ class LoginController extends BaseController
         } catch (Exception $e) {
             return response()->json(['message' => 'Get User Data Failed.'], 400);
         }
+    }
+
+    public function postUpdateUserData()
+    {
+
     }
 }
