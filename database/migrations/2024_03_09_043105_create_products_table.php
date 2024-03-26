@@ -21,6 +21,13 @@ return new class extends Migration
             $table->integer('price');
             $table->text('description');
 
+            $table->boolean('sweety');
+            $table->boolean('acidy');
+            $table->boolean('bittery');
+            $table->boolean('roasty');
+            $table->boolean('fruity');
+            $table->boolean('earthy');
+
             $table->timestamps();
         });
     }

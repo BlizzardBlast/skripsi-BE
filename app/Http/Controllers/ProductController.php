@@ -42,6 +42,26 @@ class ProductController extends Controller
         }
     }
 
+    public function getUserPreferences(){
+        if(!Auth::check() || isset(Auth::user()->preference)){return response()->json(null,200);}
+
+        $user = Auth::user();
+        $preference = json_decode($user->preference,true);
+
+        $sql = "SELECT id, name, subname, origin, characteristic, type, price, description"; 
+        $sql_dyn = [];
+        $sql_data = [];
+        foreach($preference as $attrName => $attrVal){
+            $sql_dyn[] = "CASE WHEN ".$attrName." = ? THEN 1 ELSE 0 ";
+            $sql_data[] = $preference[$attrName];
+        }
+
+        $sql .= implode("+",$sql_dyn)." as score ORDER BY score DESC LIMIT 3";
+        $result = DB::select($sql,$sqlData);
+        return response()->json($esult);
+
+    }
+
 
 
     // public function getSortedProductByName()

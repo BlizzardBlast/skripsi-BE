@@ -23,7 +23,13 @@ class ProductsSeeder extends Seeder
             'characteristic' => 'Fruity Acid',
             'type' => 'Arabica',
             'price' => '5000',
-            'description' => 'dgfr'
+            'description' => 'dgfr',
+            'sweety' => true,
+            'acidy' => true,
+            'bittery' => false,
+            'roasty' => false,
+            'fruity' => true,
+            'earthy' => false
 
         ]);
 
@@ -31,10 +37,16 @@ class ProductsSeeder extends Seeder
             'name' => 'BkopiB',
             'subname' => 'Canis Betares',
             'origin' => 'Sulawesi',
-            'characteristic' => 'Fruity Acid',
+            'characteristic' => 'Bitter Roasred',
             'type' => 'Robusta',
             'price' => '7000',
-            'description' => 'dgfr'
+            'description' => 'dgfr',
+            'sweety' => false,
+            'acidy' => false,
+            'bittery' => true,
+            'roasty' => true,
+            'fruity' => false,
+            'earthy' => false
 
         ]);
 
@@ -42,10 +54,16 @@ class ProductsSeeder extends Seeder
             'name' => 'CkopiC',
             'subname' => 'Canis Charles',
             'origin' => 'Papua',
-            'characteristic' => 'Fruity Acid',
+            'characteristic' => 'Earthy',
             'type' => 'Liberica',
             'price' => '9000',
-            'description' => 'dgfr'
+            'description' => 'dgfr',
+            'sweety' => false,
+            'acidy' => false,
+            'bittery' => false,
+            'roasty' => false,
+            'fruity' => false,
+            'earthy' => true
 
         ]);
     }
