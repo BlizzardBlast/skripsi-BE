@@ -101,8 +101,23 @@ class LoginController extends BaseController
         }
     }
 
-    public function postUpdateUserData()
+    public function postUpdateUserData(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'new_name' => 'required',
+            'new_username' => 'required',
+            'new_email' => 'required',
+        ]);
+        $name = $validatedData['new_name'];
+        $username = $validatedData['new_username'];
+        $email = $validatedData['new_email'];
 
+        $updated = User::findOrFail($id);
+        $updated->name = $name;
+        $updated->username = $username;
+        $updated->email = $email;
+        $updated->save();
+
+        return response()->json(['message' => 'Successfully updated user profile']);
     }
 }
