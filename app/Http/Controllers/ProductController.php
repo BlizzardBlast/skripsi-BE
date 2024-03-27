@@ -26,40 +26,34 @@ class ProductController extends Controller
 
     public function getProductImage($id)
     {
-        $path = 'public/storage/coffeeImage/' . $id . '.png';
+        $filePath = storage_path("app\public\coffeeImage\\" . $id . "C.png");
 
+        $fileContent = file_get_contents($filePath);
+        $base64 = 'data:image/png;base64,' . base64_encode($fileContent);
 
-        if (Storage::disk('public')->exists($path)) {
-
-            $file = Storage::disk('public')->get($path);
-
-            $mimeType = 'image/png';
-
-            return Response::make($file, 200, ['Content-Type' => $mimeType]);
-
-        } else {
-            abort(404);
-        }
+        return response()->json(['image_base64' => $base64], 200);
     }
 
-    public function getUserPreferences(){
-        if(!Auth::check() || isset(Auth::user()->preference)){return response()->json(null,200);}
+    public function getUserPreferences()
+    {
+        if (!Auth::check() || isset(Auth::user()->preference)) {
+            return response()->json(null, 200);
+        }
 
         $user = Auth::user();
-        $preference = json_decode($user->preference,true);
+        $preference = json_decode($user->preference, true);
 
-        $sql = "SELECT id, name, subname, origin, characteristic, type, price, description"; 
+        $sql = "SELECT id, name, subname, origin, characteristic, type, price, description";
         $sql_dyn = [];
         $sql_data = [];
-        foreach($preference as $attrName => $attrVal){
-            $sql_dyn[] = "CASE WHEN ".$attrName." = ? THEN 1 ELSE 0 ";
+        foreach ($preference as $attrName => $attrVal) {
+            $sql_dyn[] = "CASE WHEN " . $attrName . " = ? THEN 1 ELSE 0 ";
             $sql_data[] = $preference[$attrName];
         }
 
-        $sql .= implode("+",$sql_dyn)." as score ORDER BY score DESC LIMIT 3";
-        $result = DB::select($sql,$sqlData);
+        $sql .= implode("+", $sql_dyn) . " as score ORDER BY score DESC LIMIT 3";
+        $result = DB::select($sql, $sqlData);
         return response()->json($esult);
-
     }
 
 

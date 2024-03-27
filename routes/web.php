@@ -29,7 +29,7 @@ Route::prefix('/api')->group(function () {
     Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
     Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
     Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
-    ROute::get('/getProductImage/{id}',[ProductController::class,'getProductImage']);
+    Route::get('/getProductImage/{id}', [ProductController::class, 'getProductImage']);
 
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 });
