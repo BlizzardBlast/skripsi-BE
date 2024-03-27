@@ -25,7 +25,7 @@ Route::prefix('/api')->group(function () {
     Route::post('/sign-out', [LoginController::class, 'signOut']);
 
     Route::get('/getUserData', [LoginController::class, 'getUserData']);
-    Route::post('/postUpdateUserData/{id}',LoginController::class,'postUpdateUserData');
+    Route::post('/postUpdateUserData/{id}', [LoginController::class, 'postUpdateUserData']);
 
     Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
     Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
