@@ -43,16 +43,17 @@ class ProductController extends Controller
         $user = Auth::user();
         $preference = json_decode($user->preference, true);
 
-        $sql = "SELECT id, name, subname, origin, characteristic, type, price, description";
         $sql_dyn = [];
-        $sql_data = [];
-        foreach ($preference as $attrName => $attrVal) {
-            $sql_dyn[] = "CASE WHEN " . $attrName . " = ? THEN 1 ELSE 0 ";
-            $sql_data[] = $preference[$attrName];
+        foreach ($preference as $attrName => $attrVal){
+            $sql_dyn[] = "CASE WHEN " .$attrName. " = " .$preference[$attrName]. " THEN 1 ELSE 0 END";
         }
 
-        $sql .= implode("+", $sql_dyn) . " as score ORDER BY score DESC LIMIT 3";
-        $result = DB::select($sql, $sqlData);
+        $results = Product::select('*')
+            ->select(DB::raw(implode(" + ", $sql_dyn)." as score" ))
+            ->orderBy('score')
+            ->limit(3)
+            ->get();
+        
         return response()->json($esult);
     }
 
