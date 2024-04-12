@@ -13,6 +13,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         // Fill
-        '/api/sign-in'
+        '/api/sign-in',
+        '/api/sign-up',
+        '/api/sign-out',
+        '/api/postUpdateUserData/*'
     ];
 }
