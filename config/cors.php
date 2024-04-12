@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*', 'https://kofebin.vercel.app', 'http://kofebin.vercel.app'],
+    'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => ['/https?:\/\/kofebin.vercel\.app\/?\z/'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
