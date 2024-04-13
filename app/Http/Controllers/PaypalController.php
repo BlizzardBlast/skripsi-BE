@@ -20,8 +20,8 @@ class PaypalController extends Controller
         ];
 
         $response = Http::withHeaders($headers)
-                        ->withBody('grant_type=client_credentials')
-                        ->post(config('paypal.base_url') . '/v1/oauth2/token');
+            ->withBody('grant_type=client_credentials')
+            ->post(config('paypal.base_url') . '/v1/oauth2/token');
 
         return json_decode($response->body())->access_token;
     }
@@ -46,15 +46,15 @@ class PaypalController extends Controller
                     "reference_id" => $id,
                     "amount"       => [
                         "currency_code" => "GBP",
-                        "value"         => number_format($amount, 2),
+                        "value"         => $amount,
                     ]
                 ]
             ]
         ];
 
         $response = Http::withHeaders($headers)
-                        ->withBody(json_encode($body))
-                        ->post(config('paypal.base_url'). '/v2/checkout/orders');
+            ->withBody(json_encode($body))
+            ->post(config('paypal.base_url') . '/v2/checkout/orders');
 
         Session::put('request_id', $id);
         Session::put('order_id', json_decode($response->body())->id);
@@ -75,10 +75,8 @@ class PaypalController extends Controller
         ];
 
         $response = Http::withHeaders($headers)
-                        ->post($url, null);
+            ->post($url, null);
 
         return json_decode($response->body());
     }
-
-
 }

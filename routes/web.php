@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,7 +39,6 @@ Route::prefix('/api')->group(function () {
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
     //PAYPAL
-    Route::get('/create/{amount}',[PaypalController::class,'create']);
-    Route::get('/complete',[PaypalController::class,'complete']);
-
+    Route::get('/create/{amount}', [PaypalController::class, 'create']);
+    Route::post('/complete', [PaypalController::class, 'complete']);
 });
