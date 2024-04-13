@@ -48,8 +48,9 @@ class ProductController extends Controller
             $sql_dyn[] = "CASE WHEN " .$attrName. " = " .$preference[$attrName]. " THEN 1 ELSE 0 END";
         }
 
+        $sql_dyn = implode(" + ", $sql_dyn);
         $results = Product::select('*')
-            ->select(DB::raw(implode(" + ", $sql_dyn)." as score" ))
+            ->select(DB::raw($sql_dyn." as score" ))
             ->orderBy('score')
             ->limit(3)
             ->get();
