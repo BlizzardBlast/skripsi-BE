@@ -32,7 +32,7 @@ Route::prefix('/api')->group(function () {
     Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
     Route::get('/getProductImage/{id}', [ProductController::class, 'getProductImage']);
 
-    Route::post('/postUserPref', [ProductController::class, 'postUserPreferences']);
+    Route::post('/getUserPref', [ProductController::class, 'postUserPreferences']);
     Route::post('/setUserPref', [ProductController::class, 'setUserPreferences']);
 
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);

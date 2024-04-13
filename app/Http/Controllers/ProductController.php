@@ -63,7 +63,7 @@ class ProductController extends Controller
         return response()->json(null, 200);
     }
 
-    public function postUserPreferences()
+    public function getUserPreferences()
     {
         if (!Auth::check() || isset(Auth::user()->preference)) {
             return response()->json(null, 200);
