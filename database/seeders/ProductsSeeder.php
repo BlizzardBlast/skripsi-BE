@@ -24,13 +24,10 @@ class ProductsSeeder extends Seeder
             'type' => 'Arabica',
             'price' => '5000',
             'description' => 'dgfr',
-            'sweety' => true,
-            'acidy' => true,
-            'bittery' => false,
-            'roasty' => false,
-            'fruity' => true,
-            'earthy' => false
 
+            'acidity' => 'Sour',
+            'mouthfeel' => 'Light',
+            'Sweetness' => 'Sweet'
         ]);
 
         DB::table('products')->insert([
@@ -41,13 +38,10 @@ class ProductsSeeder extends Seeder
             'type' => 'Robusta',
             'price' => '7000',
             'description' => 'dgfr',
-            'sweety' => false,
-            'acidy' => false,
-            'bittery' => true,
-            'roasty' => true,
-            'fruity' => false,
-            'earthy' => false
 
+            'acidity' => 'Neutral',
+            'mouthfeel' => 'Heavy',
+            'Sweetness' => 'Bitter'
         ]);
 
         DB::table('products')->insert([
@@ -55,16 +49,13 @@ class ProductsSeeder extends Seeder
             'subname' => 'Canis Charles',
             'origin' => 'Papua',
             'characteristic' => 'Earthy',
-            'type' => 'Liberica',
+            'type' => 'Arabica',
             'price' => '9000',
             'description' => 'dgfr',
-            'sweety' => false,
-            'acidy' => false,
-            'bittery' => false,
-            'roasty' => false,
-            'fruity' => false,
-            'earthy' => true
 
+            'acidity' => 'Neutral',
+            'mouthfeel' => 'Heavy',
+            'Sweetness' => 'Sweet'
         ]);
     }
 }

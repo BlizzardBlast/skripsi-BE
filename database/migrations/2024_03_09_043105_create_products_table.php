@@ -17,12 +17,11 @@ return new class extends Migration
             $table->string('subname');
             $table->string('origin');
             $table->string('characteristic');
-            $table->string('type');
+            $table->string('type'); // Arabica || Robusta
             $table->integer('price');
             $table->text('description');
 
-            $table->string('beantype'); // Arabica || Robusta
-            $table->boolean('acidity'); // Y || N
+            $table->string('acidity');  // Sour || Neutral
             $table->string('mouthfeel');// Light || Heavy
             $table->string('sweetness');// Sweet || Bitter
 
