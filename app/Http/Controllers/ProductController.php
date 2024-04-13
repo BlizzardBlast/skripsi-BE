@@ -60,6 +60,7 @@ class ProductController extends Controller
             'preference' => $userPref
         ]);
         
+        return response()->json(null, 200);
     }
 
     public function postUserPreferences()
