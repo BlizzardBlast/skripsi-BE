@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,7 +38,31 @@ class ProductController extends Controller
         return response()->json(['image_base64' => $base64], 200);
     }
 
-    public function getUserPreferences()
+    public function setUserPreferences(Request $request)
+    {
+        $validatedData = $request->validate([
+            'type' => ['required', 'string', Rule::in(['Arabica','Robusta'])],
+            'acidity' => ['required', 'string', Rule::in(['Sour','Neutral'])],
+            'mouthfeel' => ['required', 'string', Rule::in(['Light','Heavy'])],
+            'sweetness' => ['required', 'string', Rule::in(['Sweet','Bitter'])]
+        ]);
+
+        $userPref = [
+            'type' => $validatedData['type'],
+            'acidity' => $validatedData['acidity'],
+            'mouthfeel' => $validatedData['mouthfeel'],
+            'sweetness' => $validatedData['sweetness']
+        ];
+
+        $userPref = json_encode($userPref);
+
+        User::where('id',Auth::user()->id)->update([
+            'preference' => $userPref
+        ]);
+        
+    }
+
+    public function postUserPreferences()
     {
         if (!Auth::check() || isset(Auth::user()->preference)) {
             return response()->json(null, 200);
