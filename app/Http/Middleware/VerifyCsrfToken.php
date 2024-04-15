@@ -15,6 +15,9 @@ class VerifyCsrfToken extends Middleware
         '/api/sign-in',
         '/api/sign-up',
         '/api/sign-out',
-        '/api/postUpdateUserData/*'
+        '/api/postUpdateUserData/*',
+        '/api/setUserPref',
+        '/api/createPayment',
+        '/api/complete'
     ];
 }
