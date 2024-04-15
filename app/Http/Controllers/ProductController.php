@@ -41,10 +41,10 @@ class ProductController extends Controller
     public function setUserPreferences(Request $request)
     {
         $validatedData = $request->validate([
-            'type' => ['required', 'string', Rule::in(['Arabica','Robusta'])],
-            'acidity' => ['required', 'string', Rule::in(['Sour','Neutral'])],
-            'mouthfeel' => ['required', 'string', Rule::in(['Light','Heavy'])],
-            'sweetness' => ['required', 'string', Rule::in(['Sweet','Bitter'])]
+            'type' => ['required', 'string', Rule::in(['Arabica', 'Robusta'])],
+            'acidity' => ['required', 'string', Rule::in(['Sour', 'Neutral'])],
+            'mouthfeel' => ['required', 'string', Rule::in(['Light', 'Heavy'])],
+            'sweetness' => ['required', 'string', Rule::in(['Sweet', 'Bitter'])]
         ]);
 
         $userPref = [
@@ -56,16 +56,16 @@ class ProductController extends Controller
 
         $userPref = json_encode($userPref);
 
-        User::where('id',Auth::user()->id)->update([
+        User::where('id', Auth::user()->id)->update([
             'preference' => $userPref
         ]);
-        
+
         return response()->json(null, 200);
     }
 
     public function getUserPreferences()
     {
-        if (!Auth::check() || isset(Auth::user()->preference)) {
+        if (!Auth::check() || !isset(Auth::user()->preference)) {
             return response()->json(null, 200);
         }
 
@@ -73,17 +73,17 @@ class ProductController extends Controller
         $preference = json_decode($user->preference, true);
 
         $sql_dyn = [];
-        foreach ($preference as $attrName => $attrVal){
-            $sql_dyn[] = "CASE WHEN " .$attrName. " = " .$preference[$attrName]. " THEN 1 ELSE 0 END";
+        foreach ($preference as $attrName => $attrVal) {
+            $sql_dyn[] = "CASE WHEN " . $attrName . " = '" . $preference[$attrName] . "' THEN 1 ELSE 0 END";
         }
 
         $sql_dyn = implode(" + ", $sql_dyn);
         $results = Product::select('*')
-            ->select(DB::raw($sql_dyn." as score" ))
+            ->selectRaw($sql_dyn . " as score")
             ->orderBy('score')
             ->limit(3)
             ->get();
-        
+
         return response()->json($results);
     }
 
