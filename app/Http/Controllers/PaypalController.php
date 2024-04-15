@@ -11,16 +11,19 @@ class PaypalController extends Controller
 {
     //
 
-
     private function getAccessToken(): string
     {
+        $clientId = config('paypal.client_id');
+        $clientSecret = config('paypal.client_secret');
+        $authString = base64_encode($clientId . ':' . $clientSecret);
+
         $headers = [
             'Content-Type'  => 'application/x-www-form-urlencoded',
-            'Authorization' => 'Basic ' . base64_encode(config('paypal.client_id') . ':' . config('paypal.client_secret'))
+            'Authorization' => 'Basic ' . $authString
         ];
 
         $response = Http::withHeaders($headers)
-            ->withBody('grant_type=client_credentials')
+            ->withBody('grant_type=client_credentials', 'application/x-www-form-urlencoded')
             ->post(config('paypal.base_url') . '/v1/oauth2/token');
 
         return json_decode($response->body())->access_token;
@@ -29,8 +32,9 @@ class PaypalController extends Controller
     /**
      * @return string
      */
-    public function create(float $amount = 10): string
+    public function create(Request $request): string
     {
+        $amount = floatval($request->amount);
         $id = uuid_create();
 
         $headers = [
@@ -53,7 +57,7 @@ class PaypalController extends Controller
         ];
 
         $response = Http::withHeaders($headers)
-            ->withBody(json_encode($body))
+            ->withBody(json_encode($body), 'application/json')
             ->post(config('paypal.base_url') . '/v2/checkout/orders');
 
         Session::put('request_id', $id);

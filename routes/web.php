@@ -39,6 +39,6 @@ Route::prefix('/api')->group(function () {
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
     //PAYPAL
-    Route::get('/create/{amount}', [PaypalController::class, 'create']);
+    Route::post('/createPayment', [PaypalController::class, 'create']);
     Route::post('/complete', [PaypalController::class, 'complete']);
 });
