@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('subname');
             $table->string('origin');
-            $table->string('characteristic');
-            $table->string('type'); // Arabica || Robusta
+            $table->string('type'); // Arabica || Robusta || Bourbon
             $table->integer('price');
             $table->text('description');
 
-            $table->string('acidity');  // Sour || Neutral
-            $table->string('mouthfeel');// Light || Heavy
-            $table->string('sweetness');// Sweet || Bitter
+            $table->string('acidity');  // Low || Medium || High
+            $table->string('flavor');// earthy || chocolate || fruit || nutty
+            $table->string('aftertaste');// complex || lingering || short
+            $table->string('sweetness');// faint || noticeable || rich
 
             $table->timestamps();
         });
