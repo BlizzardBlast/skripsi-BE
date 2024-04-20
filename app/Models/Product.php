@@ -21,10 +21,15 @@ class Product extends Authenticatable
         'name',
         'subname',
         'origin',
-        'characteristic',
         'type',
         'price',
-        'description'
+        'description',
+        'acidity',
+        'flavor',
+        'aftertaste',
+        'sweetness'
+
+
     ];
 
     protected $primaryKey = 'id';

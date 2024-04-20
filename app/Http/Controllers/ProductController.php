@@ -41,16 +41,15 @@ class ProductController extends Controller
     public function setUserPreferences(Request $request)
     {
         $validatedData = $request->validate([
-            'type' => ['required', 'string', Rule::in(['Arabica', 'Robusta'])],
-            'acidity' => ['required', 'string', Rule::in(['Sour', 'Neutral'])],
-            'mouthfeel' => ['required', 'string', Rule::in(['Light', 'Heavy'])],
-            'sweetness' => ['required', 'string', Rule::in(['Sweet', 'Bitter'])]
+            'acidity' => ['required', 'string', Rule::in(['low', 'medium', 'high'])],
+            'flavor' => ['required', 'string', Rule::in(['earthy', 'chocolate', 'fruit', 'nutty'])],
+            'aftertaste' => ['required', 'string', Rule::in(['complex', 'lingering', 'short'])],
+            'sweetness' => ['required', 'string', Rule::in(['faint', 'noticeable', 'rich'])]
         ]);
-
         $userPref = [
-            'type' => $validatedData['type'],
             'acidity' => $validatedData['acidity'],
-            'mouthfeel' => $validatedData['mouthfeel'],
+            'flavor' => $validatedData['flavor'],
+            'aftertaste' => $validatedData['aftertaste'],
             'sweetness' => $validatedData['sweetness']
         ];
 
