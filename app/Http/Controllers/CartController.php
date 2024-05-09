@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +19,7 @@ class CartController extends Controller
 
         $response = [];
 
-
-        foreach($results as $data){
+        foreach ($results as $data) {
 
             $product = Product::find($data['product_id']);
 
@@ -51,12 +51,18 @@ class CartController extends Controller
             'qty' => ['required', 'integer']
         ]);
 
+        //KALO UDAH ADA PRODUCTNYA
+
+
+
         if (Cart::where([
             ['user_id', Auth::user()->id],
             ['product_id', $valid['productId']]
-        ])->exists() >= 1) {
+        ])->exists()) {
+            // Product already exists in the cart, so increment the quantity
             $this->editQty($request);
         } else {
+            // Product doesn't exist in the cart, so add the product
             $data = [
                 'user_id' => Auth::user()->id,
                 'product_id' => $valid['productId'],
