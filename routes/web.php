@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,12 @@ Route::prefix('/api')->group(function () {
     Route::post('/setUserPref', [ProductController::class, 'setUserPreferences']);
 
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
+
+    // CART
+    Route::get('/getAllUserCart',[CartController::class, 'getAllUserCart']);
+    Route::post('/addToCart',[CartController::class, 'addToCart']);
+    Route::post('/editQty',[CartController::class, 'editQty']);
+    Route::post('/removeFromCart',[CartController::class, 'removeFromCart']);
 
     //PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);
