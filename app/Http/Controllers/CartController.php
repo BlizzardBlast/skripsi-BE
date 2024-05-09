@@ -48,7 +48,7 @@ class CartController extends Controller
 
         $valid = $request->validate([
             'productId' => ['required', 'integer'],
-            'qty' => ['required', 'integer']
+            'quantity' => ['required', 'integer']
         ]);
 
         //KALO UDAH ADA PRODUCTNYA
@@ -66,7 +66,7 @@ class CartController extends Controller
             $data = [
                 'user_id' => Auth::user()->id,
                 'product_id' => $valid['productId'],
-                'qty' => $valid['qty']
+                'quantity' => $valid['quantity']
             ];
             Cart::create($data);
         }
@@ -80,7 +80,7 @@ class CartController extends Controller
 
         $valid = $request->validate([
             'productId' => ['required', 'integer'],
-            'qty' => ['required', 'integer']
+            'quantity' => ['required', 'integer']
         ]);
 
         $old = Cart::where([
@@ -89,17 +89,17 @@ class CartController extends Controller
         ]);
 
         if ($old->exists()) {
-            $valid['qty'] += $old->first()->qty;
+            $valid['quantity'] += $old->first()->qty;
         }
 
-        if ($valid['qty'] <= 0) {
+        if ($valid['quantity'] <= 0) {
             $this->removeFromCart($request);
         } else {
             Cart::where([
                 ['user_id', Auth::user()->id],
                 ['product_id', $valid['productId']],
             ])->update([
-                'qty' => $valid['qty']
+                'quantity' => $valid['quantity']
             ]);
         }
     }
