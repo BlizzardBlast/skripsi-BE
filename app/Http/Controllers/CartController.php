@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
@@ -18,7 +14,7 @@ class CartController extends Controller
             return response()->json(null, 200);
         }
 
-        Cart::where('user_id',Auth::user()->id)->get();
+        Cart::where('user_id', Auth::user()->id)->get();
     }
 
     public function addToCart(Request $request)
@@ -52,10 +48,9 @@ class CartController extends Controller
             'qty' => ['required', 'integer']
         ]);
 
-        if($valid['qty'] <= 0) {
+        if ($valid['qty'] <= 0) {
             $this->removeFromCart($request);
-        }
-        else {
+        } else {
             Cart::where([
                 ['user_id', Auth::user()->id],
                 ['product_id', $valid['productId']],
@@ -63,8 +58,6 @@ class CartController extends Controller
                 'qty' => $valid['qty']
             ]);
         }
-
-        
     }
 
     public function removeFromCart(Request $request)

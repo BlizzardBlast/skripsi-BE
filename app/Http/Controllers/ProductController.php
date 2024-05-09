@@ -8,13 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     //
-    public function getAllProduct(Request $request)
+    public function getAllProduct()
     {
         $allProduct = Product::all();
         return response()->json($allProduct);
@@ -73,17 +71,17 @@ class ProductController extends Controller
         $preference = json_decode($user->preference, true);
 
         $sql_dyn = [];
-        foreach ($preference as $attrName => $attrVal){
-            $sql_dyn[] = "CASE WHEN " .$attrName. " = " .$preference[$attrName]. " THEN 1 ELSE 0 END";
+        foreach ($preference as $attrName => $attrVal) {
+            $sql_dyn[] = "CASE WHEN " . $attrName . " = " . $preference[$attrName] . " THEN 1 ELSE 0 END";
         }
 
         $sql_dyn = implode(" + ", $sql_dyn);
         $results = Product::select('*')
-            ->select(DB::raw($sql_dyn." as score" ))
+            ->select(DB::raw($sql_dyn . " as score"))
             ->orderBy('score')
             ->limit(3)
             ->get();
-        
+
         return response()->json($results);
     }
 
