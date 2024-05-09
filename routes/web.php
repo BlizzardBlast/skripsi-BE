@@ -40,10 +40,10 @@ Route::prefix('/api')->group(function () {
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
     // CART
-    Route::get('/getAllUserCart',[CartController::class, 'getAllUserCart']);
-    Route::post('/addToCart',[CartController::class, 'addToCart']);
-    Route::post('/editQty',[CartController::class, 'editQty']);
-    Route::post('/removeFromCart',[CartController::class, 'removeFromCart']);
+    Route::get('/getAllUserCart', [CartController::class, 'getAllUserCart']);
+    Route::post('/addToCart', [CartController::class, 'addToCart']);
+    Route::post('/editQty', [CartController::class, 'editQty']);
+    Route::post('/removeFromCart', [CartController::class, 'removeFromCart']);
 
     //PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);

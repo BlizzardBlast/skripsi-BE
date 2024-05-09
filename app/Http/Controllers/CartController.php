@@ -29,20 +29,19 @@ class CartController extends Controller
             'qty' => ['required', 'integer']
         ]);
 
-        if(Cart::where([
+        if (Cart::where([
             ['user_id', Auth::user()->id],
             ['product_id', $valid['productId']]
         ])->exists() >= 1) {
             $this->editQty($request);
-        }
-        else {
+        } else {
             $data = [
                 'user_id' => Auth::user()->id,
                 'product_id' => $valid['productId'],
                 'qty' => $valid['qty']
             ];
             Cart::create($data);
-        }   
+        }
     }
 
     public function editQty(Request $request)
@@ -61,8 +60,8 @@ class CartController extends Controller
             ['product_id', $valid['productId']]
         ]);
 
-        if($old->exists()) {
-           $valid['qty'] += $old->first()->qty;
+        if ($old->exists()) {
+            $valid['qty'] += $old->first()->qty;
         }
 
         if ($valid['qty'] <= 0) {
