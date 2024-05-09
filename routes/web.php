@@ -45,8 +45,8 @@ Route::prefix('/api')->group(function () {
     Route::post('/editQty', [CartController::class, 'editQty']);
     Route::post('/removeFromCart', [CartController::class, 'removeFromCart']);
 
-    Route::post('/incrementQuantity',[CartController::class, 'incrementQuantity']);
-    Route::post('/decrementQuantity',[CartController::class, 'decrementQuantity']);
+    Route::post('/incrementQuantity', [CartController::class, 'incrementQuantity']);
+    Route::post('/decrementQuantity', [CartController::class, 'decrementQuantity']);
 
 
     //PAYPAL

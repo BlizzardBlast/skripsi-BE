@@ -104,7 +104,8 @@ class CartController extends Controller
         }
     }
 
-    public function incrementQuantity(Request $request){
+    public function incrementQuantity(Request $request)
+    {
         if (!Auth::check()) {
             return response()->json(null, 200);
         }
@@ -131,10 +132,10 @@ class CartController extends Controller
         ]);
 
         return response()->json(['message' => 'Successfully add quantity.'], 200);
-
     }
 
-    public function decrementQuantity(Request $request){
+    public function decrementQuantity(Request $request)
+    {
         if (!Auth::check()) {
             return response()->json(null, 200);
         }
@@ -150,21 +151,23 @@ class CartController extends Controller
         ]);
 
         if ($previousData->exists()) {
-            $valid['quantity'] -= $previousData->first()->quantity;
+            $temp = $previousData->first()->quantity - $valid['quantity'];
 
-            if($valid['quantity'] = 0){
+            if ($temp == 0) {
                 Cart::where([
                     ['user_id', Auth::user()->id],
                     ['product_id', $valid['productId']],
                 ])->delete();
-
+            } else {
+                Cart::where([
+                    ['user_id', Auth::user()->id],
+                    ['product_id', $valid['productId']],
+                ])->update([
+                    'quantity' => $temp
+                ]);
             }
-
-
         }
         return response()->json(['message' => 'Successfully decrease quantity.'], 200);
-
-
     }
 
     public function removeFromCart(Request $request)
