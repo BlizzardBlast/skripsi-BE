@@ -89,7 +89,7 @@ class CartController extends Controller
         ]);
 
         if ($old->exists()) {
-            $valid['quantity'] += $old->first()->qty;
+            $valid['quantity'] += $old->first()->quantity;
         }
 
         if ($valid['quantity'] <= 0) {
