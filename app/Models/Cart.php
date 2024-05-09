@@ -19,7 +19,7 @@ class Cart extends Authenticatable
      */
     protected $fillable = [
         'user_id', // FK
-        'Product_id', // FK
+        'product_id', // FK
         'qty'
     ];
 
@@ -31,16 +31,12 @@ class Cart extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        
-    ];
+    protected $casts = [];
 }
