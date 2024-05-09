@@ -20,7 +20,7 @@ class Cart extends Authenticatable
     protected $fillable = [
         'user_id', // FK
         'product_id', // FK
-        'qty'
+        'quantity'
     ];
 
     protected $primaryKey = null;
