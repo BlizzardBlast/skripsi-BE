@@ -45,6 +45,10 @@ Route::prefix('/api')->group(function () {
     Route::post('/editQty', [CartController::class, 'editQty']);
     Route::post('/removeFromCart', [CartController::class, 'removeFromCart']);
 
+    Route::post('/incrementQuantity',[CartController::class, 'incrementQuantity']);
+    Route::post('/decrementQuantity',[CartController::class, 'decrementQuantity']);
+
+
     //PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);
     Route::post('/complete', [PaypalController::class, 'complete']);

@@ -104,6 +104,69 @@ class CartController extends Controller
         }
     }
 
+    public function incrementQuantity(Request $request){
+        if (!Auth::check()) {
+            return response()->json(null, 200);
+        }
+
+        $valid = $request->validate([
+            'productId' => ['required', 'integer'],
+            'quantity' => ['required', 'integer']
+        ]);
+
+        $previousData = Cart::where([
+            ['user_id', Auth::user()->id],
+            ['product_id', $valid['productId']]
+        ]);
+
+        if ($previousData->exists()) {
+            $valid['quantity'] += $previousData->first()->quantity;
+        }
+
+        Cart::where([
+            ['user_id', Auth::user()->id],
+            ['product_id', $valid['productId']],
+        ])->update([
+            'quantity' => $valid['quantity']
+        ]);
+
+        return response()->json(['message' => 'Successfully add quantity.'], 200);
+
+    }
+
+    public function decrementQuantity(Request $request){
+        if (!Auth::check()) {
+            return response()->json(null, 200);
+        }
+
+        $valid = $request->validate([
+            'productId' => ['required', 'integer'],
+            'quantity' => ['required', 'integer']
+        ]);
+
+        $previousData = Cart::where([
+            ['user_id', Auth::user()->id],
+            ['product_id', $valid['productId']]
+        ]);
+
+        if ($previousData->exists()) {
+            $valid['quantity'] -= $previousData->first()->quantity;
+
+            if($valid['quantity'] = 0){
+                Cart::where([
+                    ['user_id', Auth::user()->id],
+                    ['product_id', $valid['productId']],
+                ])->delete();
+
+            }
+
+
+        }
+        return response()->json(['message' => 'Successfully decrease quantity.'], 200);
+
+
+    }
+
     public function removeFromCart(Request $request)
     {
         if (!Auth::check()) {
