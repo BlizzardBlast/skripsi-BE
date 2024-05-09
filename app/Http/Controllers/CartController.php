@@ -67,8 +67,7 @@ class CartController extends Controller
         }
 
         $valid = $request->validate([
-            'productId' => ['required', 'integer'],
-            'qty' => ['required', 'integer']
+            'productId' => ['required', 'integer']
         ]);
 
         Cart::where([
