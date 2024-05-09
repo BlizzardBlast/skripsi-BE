@@ -15,7 +15,29 @@ class CartController extends Controller
         }
 
         $results = Cart::where('user_id', Auth::user()->id)->get();
-        return response()->json($results);
+
+        $response = [];
+
+
+        foreach($results as $data){
+
+            $product = Product::find($data['product_id']);
+
+            if ($product) {
+                // If product exists, construct the response
+                $response[] = [
+                    'userId' => $data['userId'],
+                    'qty' => $data['qty'],
+                    'product' => $product // Include the product details
+                ];
+            } else {
+                // If product doesn't exist, you might handle this case differently
+                // For example, return an error message or skip this entry
+            }
+        }
+
+
+        return response()->json($response);
     }
 
     public function addToCart(Request $request)
