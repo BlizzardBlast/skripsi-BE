@@ -27,7 +27,7 @@ class OrderController extends Controller
             return response()->json(null, 200);
         }
 
-        $orderSpecific = OrderDetail::with('product')->where('order_id', $id)->get();
+        $orderSpecific = OrderDetail::with('product')->where('order_id', $id)->first();
 
         return response()->json($orderSpecific);
     }
