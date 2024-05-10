@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,10 @@ Route::prefix('/api')->group(function () {
     Route::post('/incrementQuantity', [CartController::class, 'incrementQuantity']);
     Route::post('/decrementQuantity', [CartController::class, 'decrementQuantity']);
 
+    // Order
+    Route::get('/getOrder', [OrderController::class, 'getOrder']);
+    Route::get('/getOrderSpecific/{id}', [OrderController::class, 'getOrderSpecific']);
+    Route::post('/postOrder', [OrderController::class, 'postOrder']);
 
     //PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);
