@@ -37,31 +37,28 @@ class OrderController extends Controller
         ]);
 
         // Create the order
-        $order = Order::create([
+        Order::create([
             'user_id' => Auth::user()->id,
             'confirmation' => $validatedData['confirmation'],
             'total_price' => $validatedData['total_price'],
         ]);
 
-
-
         return response()->json(['message' => 'Successfully added new order with details']);
     }
 
-    public function postOrderDetail(Request $request){
+    public function postOrderDetail(Request $request)
+    {
         // Validate the request data
         $validatedData = $request->validate([
-            '*.product_id' => 'required|exists:products,id', // Validate product_id for each order detail
-            '*.quantity' => 'required|integer|min:1', // Validate quantity for each order detail
+            '*.product_id' => 'exists:products,id', // Validate product_id for each order detail
+            '*.quantity' => 'integer|min:1', // Validate quantity for each order detail
         ]);
 
         $lastOrderId = Order::max('id');
 
-        $nextOrderId = $lastOrderId + 1;
-
         foreach ($validatedData as $orderDetailData) {
             OrderDetail::create([
-                'order_id' => $nextOrderId,
+                'order_id' => $lastOrderId,
                 'user_id' => Auth::user()->id,
                 'product_id' => $orderDetailData['product_id'],
                 'quantity' => $orderDetailData['quantity'],
