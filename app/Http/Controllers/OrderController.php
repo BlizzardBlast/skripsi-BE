@@ -28,17 +28,27 @@ class OrderController extends Controller
     }
 
     public function postOrder(Request $request){
+        if (!Auth::check()) {
+            return response()->json(null, 200);
+        }
+
         $validatedData = $request->validate([
             'user_id' => 'required',
             'confirmation' => 'required',
             'total_price' => 'required',
         ]);
 
+        $validatedData2 = $request->validate([
+
+        ]);
+
 
         Order::create($validatedData);
 
+        OrderDetail::create($validatedData2);
 
-        return response()->json(['message' => 'Successfully updated user profile']);
+
+        return response()->json(['message' => 'Successfully add new order']);
 
     }
 
