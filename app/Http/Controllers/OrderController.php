@@ -39,7 +39,7 @@ class OrderController extends Controller
 
         // Create the order
         $order = Order::create([
-            'user_id' => $validatedData['user_id'],
+            'user_id' => Auth::user()->id,
             'confirmation' => $validatedData['confirmation'],
             'total_price' => $validatedData['total_price'],
         ]);
@@ -48,7 +48,7 @@ class OrderController extends Controller
         foreach ($validatedData['order_details'] as $orderDetailData) {
             OrderDetail::create([
                 'order_id' => $order->id,
-                'user_id' => $validatedData['user_id'], // Assuming order details inherit user_id from the order
+                'user_id' => Auth::user()->id, // Assuming order details inherit user_id from the order
                 'product_id' => $orderDetailData['product_id'],
                 'quantity' => $orderDetailData['quantity'],
             ]);
