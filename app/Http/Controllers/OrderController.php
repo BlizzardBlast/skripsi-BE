@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
     //
-    public function getOrder(){
+    public function getOrder()
+    {
         if (!Auth::check()) {
             return response()->json(null, 200);
         }
@@ -19,7 +20,8 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    public function getOrderSpecific($id){
+    public function getOrderSpecific($id)
+    {
         if (!Auth::check()) {
             return response()->json(null, 200);
         }
@@ -27,9 +29,9 @@ class OrderController extends Controller
         return response()->json($orderSpecific);
     }
 
-    public function postOrder(Request $request){
+    public function postOrder(Request $request)
+    {
         $validatedData = $request->validate([
-            'user_id' => 'required',
             'confirmation' => 'required',
             'total_price' => 'required',
             'order_details' => 'required|array|min:1', // Ensure order_details is an array with at least one element
@@ -56,6 +58,4 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Successfully added new order with details']);
     }
-
-
 }
