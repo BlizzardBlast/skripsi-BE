@@ -18,6 +18,11 @@ class VerifyCsrfToken extends Middleware
         '/api/postUpdateUserData/*',
         '/api/setUserPref',
         '/api/createPayment',
-        '/api/complete'
+        '/api/complete',
+        '/api/addToCart',
+        '/api/editQty',
+        '/api/removeFromCart',
+        '/api/incrementQuantity',
+        '/api/decrementQuantity',
     ];
 }
