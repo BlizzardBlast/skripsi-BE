@@ -19,8 +19,9 @@ class OrderDetail extends Authenticatable
      */
     protected $fillable = [
         'order_id', // FK
+        'user_id', // FK
         'product_id', // FK
-        'qty'
+        'quantity'
     ];
 
     protected $primaryKey = null;
@@ -31,16 +32,12 @@ class OrderDetail extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        
-    ];
+    protected $casts = [];
 }
