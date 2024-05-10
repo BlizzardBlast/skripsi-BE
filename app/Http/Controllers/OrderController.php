@@ -34,9 +34,6 @@ class OrderController extends Controller
         $validatedData = $request->validate([
             'confirmation' => 'required',
             'total_price' => 'required',
-            'order_details' => 'required|array|min:1', // Ensure order_details is an array with at least one element
-            'order_details.*.quantity' => 'required|integer|min:1', // Validate quantity for each order detail
-            'order_details.*.product_id' => 'required|exists:products,id', // Validate product_id for each order detail
         ]);
 
         // Create the order
@@ -46,16 +43,31 @@ class OrderController extends Controller
             'total_price' => $validatedData['total_price'],
         ]);
 
-        // Create order details for the order
-        foreach ($validatedData['order_details'] as $orderDetailData) {
+
+
+        return response()->json(['message' => 'Successfully added new order with details']);
+    }
+
+    public function postOrderDetail(Request $request){
+        // Validate the request data
+        $validatedData = $request->validate([
+            '*.product_id' => 'required|exists:products,id', // Validate product_id for each order detail
+            '*.quantity' => 'required|integer|min:1', // Validate quantity for each order detail
+        ]);
+
+        $lastOrderId = Order::max('id');
+
+        $nextOrderId = $lastOrderId + 1;
+
+        foreach ($validatedData as $orderDetailData) {
             OrderDetail::create([
-                'order_id' => $order->id,
-                'user_id' => Auth::user()->id, // Assuming order details inherit user_id from the order
+                'order_id' => $nextOrderId,
+                'user_id' => Auth::user()->id,
                 'product_id' => $orderDetailData['product_id'],
                 'quantity' => $orderDetailData['quantity'],
             ]);
         }
 
-        return response()->json(['message' => 'Successfully added new order with details']);
+        return response()->json(['message' => 'Successfully added order details']);
     }
 }
