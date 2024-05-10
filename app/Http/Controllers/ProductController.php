@@ -61,9 +61,9 @@ class ProductController extends Controller
     }
 
 
-    public function UserPreferences()
+    public function getUserPreferences()
     {
-        if (!Auth::check() || isset(Auth::user()->preference)) {
+        if (!Auth::check() || !isset(Auth::user()->preference)) {
             return response()->json(null, 200);
         }
 
@@ -72,12 +72,12 @@ class ProductController extends Controller
 
         $sql_dyn = [];
         foreach ($preference as $attrName => $attrVal) {
-            $sql_dyn[] = "CASE WHEN " . $attrName . " = " . $preference[$attrName] . " THEN 1 ELSE 0 END";
+            $sql_dyn[] = "CASE WHEN " . $attrName . " = '" . $preference[$attrName] . "' THEN 1 ELSE 0 END";
         }
 
         $sql_dyn = implode(" + ", $sql_dyn);
         $results = Product::select('*')
-            ->select(DB::raw($sql_dyn . " as score"))
+            ->selectRaw($sql_dyn . " as score")
             ->orderBy('score')
             ->limit(3)
             ->get();
