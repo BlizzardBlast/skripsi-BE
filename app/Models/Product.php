@@ -32,6 +32,7 @@ class Product extends Authenticatable
 
     ];
 
+
     protected $primaryKey = 'id';
     public $incrementing = true;
 
@@ -52,4 +53,9 @@ class Product extends Authenticatable
     protected $casts = [
 
     ];
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'product_id');
+    }
 }

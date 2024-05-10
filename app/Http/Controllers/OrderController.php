@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
@@ -25,7 +26,9 @@ class OrderController extends Controller
         if (!Auth::check()) {
             return response()->json(null, 200);
         }
-        $orderSpecific = OrderDetail::where('order_id', $id)->get();
+
+        $orderSpecific = OrderDetail::with('product')->where('order_id', $id)->get();
+
         return response()->json($orderSpecific);
     }
 
@@ -64,6 +67,8 @@ class OrderController extends Controller
                 'quantity' => $orderDetailData['quantity'],
             ]);
         }
+
+        Cart::where([['user_id', Auth::user()->id]])->delete();
 
         return response()->json(['message' => 'Successfully added order details']);
     }
