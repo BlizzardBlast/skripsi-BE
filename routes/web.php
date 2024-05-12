@@ -53,8 +53,6 @@ Route::prefix('/api')->group(function () {
     Route::get('/getOrder', [OrderController::class, 'getOrder']);
     Route::get('/getOrderSpecific/{id}', [OrderController::class, 'getOrderSpecific']);
     Route::post('/postOrder', [OrderController::class, 'postOrder']);
-    Route::post('/postOrderDetail', [OrderController::class, 'postOrderDetail']);
-
 
     //PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);

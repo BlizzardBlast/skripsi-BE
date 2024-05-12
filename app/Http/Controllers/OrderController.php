@@ -28,51 +28,46 @@ class OrderController extends Controller
             return response()->json(null, 200);
         }
 
-        $orderSpecific = OrderDetail::where('order_id', $id)->get();
+        $orderSpecific = OrderDetail::with('product')->where('order_id', $id)->get();
 
-        $orderProductSpecific = Product::find($orderSpecific->product_id);
-
-        return response()->json(['orderDetail' => $orderSpecific,'productDetail' => $orderProductSpecific]);
+        return response()->json($orderSpecific);
     }
 
     public function postOrder(Request $request)
     {
         $validatedData = $request->validate([
             'confirmation' => 'required',
-            'total_price' => 'required',
+            'total_price' => 'required|numeric|min:0',
+            'details.*.product_id' => 'required|exists:products,id',
+            'details.*.quantity' => 'required|integer|min:1',
         ]);
 
         // Create the order
-        Order::create([
+        $order = Order::create([
             'user_id' => Auth::user()->id,
             'confirmation' => $validatedData['confirmation'],
             'total_price' => $validatedData['total_price'],
         ]);
 
-        return response()->json(['message' => 'Successfully added new order with details']);
-    }
+        // Create the order details
+        foreach ($validatedData['details'] as $orderDetailData) {
+            if (!isset($orderDetailData['product_id']) || !isset($orderDetailData['quantity'])) {
+                return response()->json(['message' => 'Missing product_id or quantity in details'], 400);
+            }
 
-    public function postOrderDetail(Request $request)
-    {
-        // Validate the request data
-        $validatedData = $request->validate([
-            '*.product_id' => 'exists:products,id', // Validate product_id for each order detail
-            '*.quantity' => 'integer|min:1', // Validate quantity for each order detail
-        ]);
-
-        $lastOrderId = Order::max('id');
-
-        foreach ($validatedData as $orderDetailData) {
             OrderDetail::create([
-                'order_id' => $lastOrderId,
-                'user_id' => Auth::user()->id,
-                'product_id' => $orderDetailData['product_id'],
                 'quantity' => $orderDetailData['quantity'],
+                'product_id' => $orderDetailData['product_id'],
+                'order_id' => $order->id,
+                'user_id' => Auth::user()->id,
             ]);
         }
 
-        Cart::where([['user_id', Auth::user()->id]])->delete();
+        // Delete the cart items
+        if (Auth::user()) {
+            Cart::where('user_id', Auth::user()->id)->delete();
+        }
 
-        return response()->json(['message' => 'Successfully added order details']);
+        return response()->json(['message' => 'Successfully added new order with details']);
     }
 }

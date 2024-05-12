@@ -24,7 +24,7 @@ class OrderDetail extends Authenticatable
         'quantity'
     ];
 
-    protected $primaryKey = null;
+    protected $primaryKey = 'id';
     public $incrementing = true;
 
     /**

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantity')->default(1);
+            $table->integer('quantity')->nullable();
             $table->foreignId('product_id')->nullable()->references('id')->on('products')->onDelete('no action')->onUpdate('no action');
 
             $table->foreignId('order_id')->nullable()->references('id')->on('orders')->onDelete('no action')->onUpdate('no action');
