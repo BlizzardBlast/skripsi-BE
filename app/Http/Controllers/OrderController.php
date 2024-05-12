@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,9 +28,11 @@ class OrderController extends Controller
             return response()->json(null, 200);
         }
 
-        $orderSpecific = OrderDetail::with('product')->where('order_id', $id)->get();
+        $orderSpecific = OrderDetail::where('order_id', $id)->get();
 
-        return response()->json($orderSpecific);
+        $orderProductSpecific = Product::find($orderSpecific->product_id);
+
+        return response()->json(['orderDetail' => $orderSpecific,'productDetail' => $orderProductSpecific]);
     }
 
     public function postOrder(Request $request)
