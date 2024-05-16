@@ -70,6 +70,8 @@ class CartController extends Controller
             ];
             Cart::create($data);
         }
+        return response()->json(['message' => 'Successfully added to Cart'], 400);
+
     }
 
     public function editQty(Request $request)
@@ -185,4 +187,5 @@ class CartController extends Controller
             ['product_id', $valid['productId']],
         ])->delete();
     }
+
 }
