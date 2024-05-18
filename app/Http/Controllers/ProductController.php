@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -87,7 +88,8 @@ class ProductController extends Controller
     }
 
 
-    public function addProduct(Request $request){
+    public function addProduct(Request $request)
+    {
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
@@ -119,7 +121,57 @@ class ProductController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to add product.', 'error' => $e->getMessage()], 400);
         }
+    }
 
+    public function editProduct(Request $request, $id)
+    {
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'new_name' => 'nullable|string',
+                'new_subname' => 'nullable|string',
+                'new_origin' => 'nullable|string',
+                'new_type' => 'nullable|string',
+                'new_price' => 'nullable|integer',
+                'new_description' => 'nullable|string',
+                'new_image' => 'nullable|mimes:jpeg,png,jpg|max:3072',
+                'new_acidity' => 'nullable|string',
+                'new_flavor' => 'nullable|string',
+                'new_aftertaste' => 'nullable|string',
+                'new_sweetness' => 'nullable|string',
+            ]);
+
+            $product = Product::findOrFail($id);
+
+            $updateData = [
+                'name' => $validatedData['new_name'] ?? $product->name,
+                'subname' => $validatedData['new_subname'] ?? $product->subname,
+                'origin' => $validatedData['new_origin'] ?? $product->origin,
+                'type' => $validatedData['new_type'] ?? $product->type,
+                'price' => $validatedData['new_price'] ?? $product->price,
+                'description' => $validatedData['new_description'] ?? $product->description,
+                'acidity' => $validatedData['new_acidity'] ?? $product->acidity,
+                'flavor' => $validatedData['new_flavor'] ?? $product->flavor,
+                'aftertaste' => $validatedData['new_aftertaste'] ?? $product->aftertaste,
+                'sweetness' => $validatedData['new_sweetness'] ?? $product->sweetness,
+            ];
+
+            if ($request->hasFile('new_image')) {
+                $pictureFilename = $product->id . 'C.png';
+                if ($product->image) {
+                    Storage::delete('public/coffeeImage/' . $product->image);
+                }
+
+                $coffeePicture = $request->file('new_image');
+                $coffeePicture->storeAs('public/coffeeImage', $pictureFilename);
+                $updateData['image'] = $pictureFilename;
+            }
+            $product->update($updateData);
+
+            return response()->json(['message' => 'Successfully updated Product.'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to update product.', 'error' => $e->getMessage()], 400);
+        }
     }
 
 

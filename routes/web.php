@@ -41,6 +41,8 @@ Route::prefix('/api')->group(function () {
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
     Route::post('/addProduct',[ProductController::class,'addProduct']);
+    Route::post('/editProduct/{id}',[ProductController::class,'editProduct']);
+
 
     // CART
     Route::get('/getAllUserCart', [CartController::class, 'getAllUserCart']);
