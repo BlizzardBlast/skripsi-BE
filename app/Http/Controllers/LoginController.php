@@ -92,6 +92,7 @@ class LoginController extends BaseController
                 'name' => $user->name,
                 'email' => $user->email,
                 'username' => $user->username,
+                'role' => $user->role,
                 'preferences' => $user->preferences
             ];
 
