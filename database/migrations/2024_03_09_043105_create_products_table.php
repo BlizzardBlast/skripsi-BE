@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('type'); // Arabica || Robusta || Bourbon
             $table->integer('price');
             $table->text('description');
+            // $table->string('picture')->nullable();
+
 
             $table->string('acidity');  // Low || Medium || High
             $table->string('flavor');// earthy || chocolate || fruit || nutty
