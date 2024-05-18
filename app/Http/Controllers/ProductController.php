@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Preference;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PhpOption\None;
 
 class ProductController extends Controller
 {
@@ -63,28 +65,53 @@ class ProductController extends Controller
     }
 
 
-    public function getUserPreferences()
+    public function getUserPreferences($refresh=null)
     {
         if (!Auth::check() || !isset(Auth::user()->preference)) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
-        $user = Auth::user();
-        $preference = json_decode($user->preference, true);
+        if ($refresh === null) { 
+            $ids = Preference::select('product_id')
+                ->where('userid',Auth::user()->id)
+                ->limit(3)
+                ->toArray();
 
-        $sql_dyn = [];
-        foreach ($preference as $attrName => $attrVal) {
-            $sql_dyn[] = "CASE WHEN " . $attrName . " = '" . $preference[$attrName] . "' THEN 1 ELSE 0 END";
+            $results = Product::select('*')
+                ->whereIn('id',$ids)
+                ->get();
+
+            return response()->json($results, 200);
+        }
+        else {
+            $user = Auth::user();
+            $preference = json_decode($user->preference, true);
+            
+            $sql_dyn = [];
+            foreach ($preference as $attrName => $attrVal) {
+                $sql_dyn[] = "CASE WHEN " . $attrName . " = '" . $attrVal . "' THEN 1 ELSE 0 END";
+            }
+
+            $sql_dyn = implode(" + ", $sql_dyn);
+            $results = Product::select('*')
+                ->selectRaw($sql_dyn . " as score")
+                ->orderBy('score')
+                ->limit(3)
+                ->get();
+
+            foreach($results as $row){
+                $data = [
+                    'user_id' => $user->id,
+                    'product_id' => $row->id,
+                    'score' => floatval($row->score)
+                ];
+                Preference::create($data);
+            }
+
+            return response()->json($results, 200);
         }
 
-        $sql_dyn = implode(" + ", $sql_dyn);
-        $results = Product::select('*')
-            ->selectRaw($sql_dyn . " as score")
-            ->orderBy('score')
-            ->limit(3)
-            ->get();
-
-        return response()->json($results);
+        
     }
 
 
