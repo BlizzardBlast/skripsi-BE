@@ -174,6 +174,22 @@ class ProductController extends Controller
         }
     }
 
+    public function removeProduct($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            if ($product->image) {
+                Storage::delete('public/coffeeImage/' . $product->image);
+            }
+            $product->delete();
+
+            return response()->json(['message' => 'Successfully deleted product'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to delete product.', 'error' => $e->getMessage()], 400);
+        }
+    }
+
 
 
     // public function getSortedProductByName()

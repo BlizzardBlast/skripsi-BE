@@ -42,6 +42,8 @@ Route::prefix('/api')->group(function () {
 
     Route::post('/addProduct',[ProductController::class,'addProduct']);
     Route::post('/editProduct/{id}',[ProductController::class,'editProduct']);
+    Route::post('/removeProduct/{id}',[ProductController::class,'removeProduct']);
+
 
 
     // CART
