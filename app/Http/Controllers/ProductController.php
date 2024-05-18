@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use Exception;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -83,6 +84,41 @@ class ProductController extends Controller
             ->get();
 
         return response()->json($results);
+    }
+
+
+    public function addProduct(Request $request){
+        try {
+
+            $validatedData = $request->validate([
+                'name' => 'required',
+                'subname' => 'required',
+                'origin' => 'required',
+                'type' => 'required',
+                'price' => 'required',
+                'description' => 'required',
+                'coffeeBeanImage' => 'nullable|mimes:jpeg,png,jpg|max:3072',
+                'acidity' => 'required',
+                'flavor' => 'required',
+                'aftertaste' => 'required',
+                'sweetness' => 'required',
+            ]);
+
+            $product = Product::create($validatedData);
+
+            // Generate the picture filename using the product ID
+
+            $pictureFilename = $product->id . 'C';
+
+            if ($request->hasFile('coffeeBeanImage')) {
+                $coffeePicture = $request->file('coffeeBeanImage');
+                $coffeePicture->storeAs('public/coffeeImage', $pictureFilename);
+            }
+
+            return response()->json(['message' => 'Successfully added Product.'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to add product.'], 400);
+        }
     }
 
 
