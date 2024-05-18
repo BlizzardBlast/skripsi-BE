@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('type'); // Arabica || Robusta || Bourbon
             $table->integer('price');
             $table->text('description');
-            $table->string('coffeeBeanImage')->nullable();
+            $table->string('image')->nullable();
             $table->string('acidity');  // Low || Medium || High
             $table->string('flavor');// earthy || chocolate || fruit || nutty
             $table->string('aftertaste');// complex || lingering || short

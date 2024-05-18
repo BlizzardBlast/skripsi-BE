@@ -24,7 +24,7 @@ class Product extends Authenticatable
         'type',
         'price',
         'description',
-        'coffeeBeanImage',
+        'image',
         'acidity',
         'flavor',
         'aftertaste',

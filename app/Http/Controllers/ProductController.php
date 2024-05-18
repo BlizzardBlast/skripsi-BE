@@ -89,36 +89,37 @@ class ProductController extends Controller
 
     public function addProduct(Request $request){
         try {
-
+            // Validate the incoming request data
             $validatedData = $request->validate([
                 'name' => 'required',
                 'subname' => 'required',
                 'origin' => 'required',
                 'type' => 'required',
-                'price' => 'required',
+                'price' => 'required|integer',
                 'description' => 'required',
-                'coffeeBeanImage' => 'nullable|mimes:jpeg,png,jpg|max:3072',
+                'image' => 'nullable|mimes:jpeg,png,jpg|max:3072',
                 'acidity' => 'required',
                 'flavor' => 'required',
                 'aftertaste' => 'required',
                 'sweetness' => 'required',
             ]);
 
-            $product = Product::create($validatedData);
+            $nextProductId = DB::table('products')->max('id') + 1;
+            $pictureFilename = $nextProductId . 'C.png';
 
-            // Generate the picture filename using the product ID
-
-            $pictureFilename = $product->id . 'C';
-
-            if ($request->hasFile('coffeeBeanImage')) {
-                $coffeePicture = $request->file('coffeeBeanImage');
+            if ($request->hasFile('image')) {
+                $coffeePicture = $request->file('image');
                 $coffeePicture->storeAs('public/coffeeImage', $pictureFilename);
+
+                $validatedData['image'] = $pictureFilename;
             }
+            Product::create($validatedData);
 
             return response()->json(['message' => 'Successfully added Product.'], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Failed to add product.'], 400);
+            return response()->json(['message' => 'Failed to add product.', 'error' => $e->getMessage()], 400);
         }
+
     }
 
 
