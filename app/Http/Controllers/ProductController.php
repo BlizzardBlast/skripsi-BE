@@ -65,16 +65,17 @@ class ProductController extends Controller
     }
 
 
-    public function getUserPreferences($refresh = null)
+    public function getUserPreferences($refresh)
     {
         if (!Auth::check() || !isset(Auth::user()->preference)) {
             return response()->json(null, 400);
         }
 
-        if ($refresh === null) {
+        if ($refresh != "true") {
             $ids = Preference::select('product_id')
-                ->where('userid', Auth::user()->id)
+                ->where('user_id', Auth::user()->id)
                 ->limit(3)
+                ->get()
                 ->toArray();
 
             $results = Product::select('*')
