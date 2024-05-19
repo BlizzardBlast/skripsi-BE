@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Product extends Authenticatable
+class ProductAttribute extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -17,13 +17,11 @@ class Product extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'subname',
-        'origin',
-        'type',
-        'price',
-        'description',
-        'image'
+        'product_id',
+        'acidity',
+        'flavor',
+        'aftertaste',
+        'sweetness'
     ];
 
 
@@ -44,8 +42,5 @@ class Product extends Authenticatable
      */
     protected $casts = [];
 
-    public function orderDetails()
-    {
-        return $this->hasMany(OrderDetail::class, 'product_id');
-    }
+
 }

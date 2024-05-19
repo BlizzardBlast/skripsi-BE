@@ -6,6 +6,7 @@ use Exception;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Preference;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -93,14 +94,16 @@ class ProductController extends Controller
             }
 
             $sql_dyn = implode(" + ", $sql_dyn);
-            $results = Product::select('*')
+            $ids = ProductAttribute::select('*')
                 ->selectRaw($sql_dyn . " as score")
                 ->orderBy('score')
                 ->limit(3)
-                ->get();
-
+                ->get()
+                ->toArray();
+            
             Preference::where('user_id', $user->id)->delete();
 
+            $results = Product::whereIn('id',$ids);
             foreach ($results as $row) {
                 $data = [
                     'user_id' => $user->id,
@@ -130,7 +133,7 @@ class ProductController extends Controller
                 'acidity' => 'required',
                 'flavor' => 'required',
                 'aftertaste' => 'required',
-                'sweetness' => 'required',
+                'sweetness' => 'required'
             ]);
 
             $nextProductId = DB::table('products')->max('id') + 1;
@@ -142,7 +145,23 @@ class ProductController extends Controller
 
                 $validatedData['image'] = $pictureFilename;
             }
-            Product::create($validatedData);
+            $newProduct = Product::create([
+                'name' => $validatedData['name'],
+                'subname' => $validatedData['subname'],
+                'origin' => $validatedData['origin'],
+                'type' => $validatedData['type'],
+                'price' => $validatedData['price'],
+                'description' => $validatedData['description'],
+                'image' => $validatedData['image'],
+            ]);
+
+            ProductAttribute::create([
+                'product_id' => $newProduct->id,
+                'acidity' => $validatedData['acidity'],
+                'flavor' => $validatedData['flavor'],
+                'aftertaste' => $validatedData['aftertaste'],
+                'sweetness' => $validatedData['sweetness']
+            ]);
 
             return response()->json(['message' => 'Successfully added Product.'], 200);
         } catch (Exception $e) {
@@ -169,6 +188,7 @@ class ProductController extends Controller
             ]);
 
             $product = Product::findOrFail($id);
+            $productAttribute = ProductAttribute::where('product_id',$id)->firstOrFail();
 
             $updateData = [
                 'name' => $validatedData['new_name'] ?? $product->name,
@@ -176,11 +196,13 @@ class ProductController extends Controller
                 'origin' => $validatedData['new_origin'] ?? $product->origin,
                 'type' => $validatedData['new_type'] ?? $product->type,
                 'price' => $validatedData['new_price'] ?? $product->price,
-                'description' => $validatedData['new_description'] ?? $product->description,
+                'description' => $validatedData['new_description'] ?? $product->description
+            ];
+            $updateAttributeData = [
                 'acidity' => $validatedData['new_acidity'] ?? $product->acidity,
                 'flavor' => $validatedData['new_flavor'] ?? $product->flavor,
                 'aftertaste' => $validatedData['new_aftertaste'] ?? $product->aftertaste,
-                'sweetness' => $validatedData['new_sweetness'] ?? $product->sweetness,
+                'sweetness' => $validatedData['new_sweetness'] ?? $product->sweetness
             ];
 
             if ($request->hasFile('new_image')) {
@@ -193,7 +215,10 @@ class ProductController extends Controller
                 $coffeePicture->storeAs('public/coffeeImage', $pictureFilename);
                 $updateData['image'] = $pictureFilename;
             }
+
             $product->update($updateData);
+            $productAttribute->update($updateAttributeData);
+
 
             return response()->json(['message' => 'Successfully updated Product.'], 200);
         } catch (Exception $e) {
@@ -210,6 +235,7 @@ class ProductController extends Controller
                 Storage::delete('public/coffeeImage/' . $product->image);
             }
             $product->delete();
+            ProductAttribute::where('product_id',$id)->delete();
 
             return response()->json(['message' => 'Successfully deleted product'], 200);
         } catch (Exception $e) {
