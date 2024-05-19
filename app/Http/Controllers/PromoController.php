@@ -28,13 +28,13 @@ class PromoController extends Controller
                 if (isset($promo->minimum) && $totalPrice < $promo->minimum) {
                     return response()->json(['message' => 'Promo Denied. Minimum total price not met.'], 400);
                 }
+                $discountAmount = ($totalPrice * $promo->discount) / 100;
 
-                $discount = $promo->discount;
-                if ($promo->maximum > 0 && $discount > $promo->maximum) {
-                    $discount = $promo->maximum;
+                if ($promo->maximum > 0 && $discountAmount > $promo->maximum) {
+                    $discountAmount = $promo->maximum;
                 }
 
-                return response()->json(['discount' => $discount], 200);
+                return response()->json(['discount' => $discountAmount], 200);
             } else {
                 return response()->json(['message' => 'Promo Denied. Invalid promo code or expired.'], 400);
             }
@@ -55,7 +55,8 @@ class PromoController extends Controller
                 'promo_code' => 'required',
                 'promo_expiry_date' => 'required',
                 'discount' => 'required',
-                'minimum' => 'nullable'
+                'minimum' => 'nullable',
+                'maximum' => 'nullable'
             ]);
 
             $validatedData['promo_expiry_date'] = Carbon::parse($validatedData['promo_expiry_date'])->format('Y-m-d H:i:s');
