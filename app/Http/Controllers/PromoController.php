@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 

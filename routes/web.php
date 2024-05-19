@@ -66,11 +66,8 @@ Route::prefix('/api')->group(function () {
     Route::post('/complete', [PaypalController::class, 'complete']);
 
     //Promo
-    Route::post('/postPromo',[PromoController::class,'postPromo']);
-    Route::post('/checkPromo',[PromoController::class,'checkPromo']);
-    Route::post('/deletePromo/{id}',[PromoController::class,'deletePromo']);
-    Route::get('/getAllPromo',[PromoController::class,'getAllPromo']);
-
-
-
+    Route::post('/postPromo', [PromoController::class, 'postPromo']);
+    Route::post('/checkPromo', [PromoController::class, 'checkPromo']);
+    Route::post('/deletePromo/{id}', [PromoController::class, 'deletePromo']);
+    Route::get('/getAllPromo', [PromoController::class, 'getAllPromo']);
 });
