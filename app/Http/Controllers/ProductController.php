@@ -65,28 +65,27 @@ class ProductController extends Controller
     }
 
 
-    public function getUserPreferences($refresh=null)
+    public function getUserPreferences($refresh = null)
     {
         if (!Auth::check() || !isset(Auth::user()->preference)) {
             return response()->json(null, 400);
         }
 
-        if ($refresh === null) { 
+        if ($refresh === null) {
             $ids = Preference::select('product_id')
-                ->where('userid',Auth::user()->id)
+                ->where('userid', Auth::user()->id)
                 ->limit(3)
                 ->toArray();
 
             $results = Product::select('*')
-                ->whereIn('id',$ids)
+                ->whereIn('id', $ids)
                 ->get();
 
             return response()->json($results, 200);
-        }
-        else {
+        } else {
             $user = Auth::user();
             $preference = json_decode($user->preference, true);
-            
+
             $sql_dyn = [];
             foreach ($preference as $attrName => $attrVal) {
                 $sql_dyn[] = "CASE WHEN " . $attrName . " = '" . $attrVal . "' THEN 1 ELSE 0 END";
@@ -99,9 +98,9 @@ class ProductController extends Controller
                 ->limit(3)
                 ->get();
 
-            Preference::where('user_id',$user->id)->delete();
+            Preference::where('user_id', $user->id)->delete();
 
-            foreach($results as $row){
+            foreach ($results as $row) {
                 $data = [
                     'user_id' => $user->id,
                     'product_id' => $row->id,
@@ -112,8 +111,6 @@ class ProductController extends Controller
 
             return response()->json($results, 200);
         }
-
-        
     }
 
 

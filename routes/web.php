@@ -40,9 +40,9 @@ Route::prefix('/api')->group(function () {
 
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
-    Route::post('/addProduct',[ProductController::class,'addProduct']);
-    Route::post('/editProduct/{id}',[ProductController::class,'editProduct']);
-    Route::post('/removeProduct/{id}',[ProductController::class,'removeProduct']);
+    Route::post('/addProduct', [ProductController::class, 'addProduct']);
+    Route::post('/editProduct/{id}', [ProductController::class, 'editProduct']);
+    Route::post('/removeProduct/{id}', [ProductController::class, 'removeProduct']);
 
 
 
