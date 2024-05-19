@@ -99,6 +99,8 @@ class ProductController extends Controller
                 ->limit(3)
                 ->get();
 
+            Preference::where('user_id',$user->id)->delete();
+
             foreach($results as $row){
                 $data = [
                     'user_id' => $user->id,
