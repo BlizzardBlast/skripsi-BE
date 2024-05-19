@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('promo_expiry_date');
             $table->integer('discount');
             $table->integer('minimum')->default(0);
-
+            $table->integer('maximum')->default(0);
             $table->timestamps();
         });
     }

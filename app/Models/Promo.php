@@ -18,7 +18,8 @@ class Promo extends Model
         'promo_code',
         'promo_expiry_date',
         'discount',
-        'minimum'
+        'minimum',
+        'maximum'
     ];
 
 

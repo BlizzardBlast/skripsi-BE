@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 
 class PromoController extends Controller
 {
-    //
     public function checkPromo(Request $request)
     {
         try {
@@ -22,14 +21,20 @@ class PromoController extends Controller
             $totalPrice = $validatedData['total_price'];
 
             $promo = Promo::where('promo_code', $promoCode)
-                ->where('promo_date', '>=', Carbon::now())
+                ->where('promo_expiry_date', '>=', Carbon::now())
                 ->first();
 
             if ($promo) {
                 if (isset($promo->minimum) && $totalPrice < $promo->minimum) {
                     return response()->json(['message' => 'Promo Denied. Minimum total price not met.'], 400);
                 }
-                return response()->json(['discount' => $promo->discount], 200);
+
+                $discount = $promo->discount;
+                if ($promo->maximum > 0 && $discount > $promo->maximum) {
+                    $discount = $promo->maximum;
+                }
+
+                return response()->json(['discount' => $discount], 200);
             } else {
                 return response()->json(['message' => 'Promo Denied. Invalid promo code or expired.'], 400);
             }
@@ -37,6 +42,7 @@ class PromoController extends Controller
             return response()->json(['message' => 'Promo Denied. An error occurred.'], 400);
         }
     }
+
 
     public function postPromo(Request $request)
     {
