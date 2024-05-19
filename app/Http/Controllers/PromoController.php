@@ -52,6 +52,8 @@ class PromoController extends Controller
                 'minimum' => 'nullable'
             ]);
 
+            $validatedData['promo_expiry_date'] = Carbon::parse($validatedData['promo_expiry_date'])->format('Y-m-d H:i:s');
+
             Promo::create($validatedData);
 
             return response()->json(['message' => 'Successfully issued a new promo.'], 200);
