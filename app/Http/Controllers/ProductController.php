@@ -75,6 +75,7 @@ class ProductController extends Controller
             $ids = Preference::select('product_id')
                 ->where('userid', Auth::user()->id)
                 ->limit(3)
+                ->get()
                 ->toArray();
 
             $results = Product::select('*')
