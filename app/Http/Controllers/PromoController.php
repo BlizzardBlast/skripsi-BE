@@ -30,8 +30,7 @@ class PromoController extends Controller
                 }
                 $discountAmount = ($totalPrice * $promo->discount) / 100;
 
-                $discount = $promo->discount;
-                if ($promo->maximum > 0 && $discount > $promo->maximum) {
+                if ($promo->maximum > 0 && $discountAmount > $promo->maximum) {
                     $discountAmount = $promo->maximum;
                 }
 
