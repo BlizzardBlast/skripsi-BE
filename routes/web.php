@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PromoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,4 +64,13 @@ Route::prefix('/api')->group(function () {
     //PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);
     Route::post('/complete', [PaypalController::class, 'complete']);
+
+    //Promo
+    Route::post('/postPromo',[PromoController::class,'postPromo']);
+    Route::post('/checkPromo',[PromoController::class,'checkPromo']);
+    Route::post('/deletePromo/{id}',[PromoController::class,'deletePromo']);
+    Route::get('/getAllPromo',[PromoController::class,'getAllPromo']);
+
+
+
 });
