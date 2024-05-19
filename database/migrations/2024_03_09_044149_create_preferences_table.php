@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_details', function (Blueprint $table) {
+        Schema::create('preferences', function (Blueprint $table) {
             $table->id();
             $table->float('score');
             $table->foreignId('product_id')->references('id')->on('products')->onDelete('no action')->onUpdate('no action');
