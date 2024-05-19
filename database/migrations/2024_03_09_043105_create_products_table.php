@@ -21,9 +21,9 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->string('acidity');  // Low || Medium || High
-            $table->string('flavor');// earthy || chocolate || fruit || nutty
-            $table->string('aftertaste');// complex || lingering || short
-            $table->string('sweetness');// faint || noticeable || rich
+            $table->string('flavor'); // earthy || chocolate || fruit || nutty
+            $table->string('aftertaste'); // complex || lingering || short
+            $table->string('sweetness'); // faint || noticeable || rich
 
             $table->timestamps();
         });
