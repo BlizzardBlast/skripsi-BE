@@ -73,7 +73,7 @@ class ProductController extends Controller
 
         if ($refresh === null) {
             $ids = Preference::select('product_id')
-                ->where('userid', Auth::user()->id)
+                ->where('user_id', Auth::user()->id)
                 ->limit(3)
                 ->get()
                 ->toArray();
