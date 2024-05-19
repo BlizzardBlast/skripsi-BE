@@ -56,7 +56,8 @@ class PromoController extends Controller
                 'promo_code' => 'required',
                 'promo_expiry_date' => 'required',
                 'discount' => 'required',
-                'minimum' => 'nullable'
+                'minimum' => 'nullable',
+                'maximum' => 'nullable'
             ]);
 
             $validatedData['promo_expiry_date'] = Carbon::parse($validatedData['promo_expiry_date'])->format('Y-m-d H:i:s');
