@@ -24,27 +24,33 @@ use App\Http\Controllers\PromoController;
 // });
 
 Route::prefix('/api')->group(function () {
+
+    // LOGIN
     Route::post('/sign-in', [LoginController::class, 'signIn']);
     Route::post('/sign-up', [LoginController::class, 'signUp']);
     Route::post('/sign-out', [LoginController::class, 'signOut']);
 
+    // USER
     Route::get('/getUserData', [LoginController::class, 'getUserData']);
     Route::post('/postUpdateUserData/{id}', [LoginController::class, 'postUpdateUserData']);
 
+    // PRODUCT
     Route::get('/getProduct', [ProductController::class, 'getAllProduct']);
     Route::get('/getProduct/sortByName', [ProductController::class, 'getSortedProductByName']);
     Route::get('/getProduct/sortByPrice', [ProductController::class, 'getSortedProductByPrice']);
     Route::get('/getProductImage/{id}', [ProductController::class, 'getProductImage']);
-
-    Route::get('/getUserPref/{refresh}', [ProductController::class, 'getUserPreferences']);
-    Route::post('/setUserPref', [ProductController::class, 'setUserPreferences']);
-
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
-    Route::post('/addProduct', [ProductController::class, 'addProduct']);
-    Route::post('/editProduct/{id}', [ProductController::class, 'editProduct']);
-    Route::post('/removeProduct/{id}', [ProductController::class, 'removeProduct']);
-
+    // PRODUCT CONTROL
+    Route::middleware(['admin'])->group(function(){
+        Route::post('/addProduct', [ProductController::class, 'addProduct']);
+        Route::post('/editProduct/{id}', [ProductController::class, 'editProduct']);
+        Route::post('/removeProduct/{id}', [ProductController::class, 'removeProduct']);
+    });
+        
+    // RECOMMENDATION
+    Route::get('/getUserPref/{refresh}', [ProductController::class, 'getUserPreferences']);
+    Route::post('/setUserPref', [ProductController::class, 'setUserPreferences']);
 
 
     // CART
@@ -52,22 +58,25 @@ Route::prefix('/api')->group(function () {
     Route::post('/addToCart', [CartController::class, 'addToCart']);
     Route::post('/editQty', [CartController::class, 'editQty']);
     Route::post('/removeFromCart', [CartController::class, 'removeFromCart']);
-
     Route::post('/incrementQuantity', [CartController::class, 'incrementQuantity']);
     Route::post('/decrementQuantity', [CartController::class, 'decrementQuantity']);
 
-    // Order
+    // ORDER
     Route::get('/getOrder', [OrderController::class, 'getOrder']);
     Route::get('/getOrderSpecific/{id}', [OrderController::class, 'getOrderSpecific']);
     Route::post('/postOrder', [OrderController::class, 'postOrder']);
 
-    //PAYPAL
+    // PAYPAL
     Route::post('/createPayment', [PaypalController::class, 'create']);
     Route::post('/complete', [PaypalController::class, 'complete']);
 
-    //Promo
-    Route::post('/postPromo', [PromoController::class, 'postPromo']);
+    // PROMO
     Route::post('/checkPromo', [PromoController::class, 'checkPromo']);
-    Route::post('/deletePromo/{id}', [PromoController::class, 'deletePromo']);
     Route::get('/getAllPromo', [PromoController::class, 'getAllPromo']);
+
+    // PROMO CONTROL
+    Route::middleware(['admin'])->group(function(){
+        Route::post('/postPromo', [PromoController::class, 'postPromo']);
+        Route::post('/deletePromo/{id}', [PromoController::class, 'deletePromo']);
+    });
 });
