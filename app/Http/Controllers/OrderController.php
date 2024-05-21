@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function getOrder()
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $order = Order::where('user_id', Auth::user()->id)->get();
@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function getOrderSpecific($id)
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $orderSpecific = OrderDetail::with('product')->where('order_id', $id)->get();
@@ -35,6 +35,10 @@ class OrderController extends Controller
 
     public function postOrder(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        } 
+        
         $validatedData = $request->validate([
             'confirmation' => 'required',
             'total_price' => 'required|numeric|min:0',

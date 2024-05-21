@@ -21,6 +21,10 @@ class LoginController extends BaseController
 
     public function signOut(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        }
+
         Auth::guard(name: 'web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -30,6 +34,10 @@ class LoginController extends BaseController
     }
     public function signUp(Request $request)
     {
+        if (Auth::check()) {
+            return response()->json(null, 400);
+        }
+
         try {
 
 
@@ -57,6 +65,10 @@ class LoginController extends BaseController
     // sign in
     public function signIn(Request $request)
     {
+        if (Auth::check()) {
+            return response()->json(null, 400);
+        }
+
         $valid = null;
 
         try {
@@ -81,11 +93,11 @@ class LoginController extends BaseController
     // return user data for FE
     public function getUserData()
     {
-        try {
-            if (!Auth::check()) {
-                return response()->json(null, 200);
-            }
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        }
 
+        try {
             $user = Auth::user();
             $specific = [
                 'id' => $user->id,
@@ -104,6 +116,10 @@ class LoginController extends BaseController
 
     public function postUpdateUserData(Request $request, $id)
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        }
+
         $validatedData = $request->validate([
             'new_name' => 'required',
             'new_username' => 'required',

@@ -3,14 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promo;
+use App\Models\PromoUsage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PromoController extends Controller
 {
+    private function getPromoUsage($promo_id, $user_id=null)
+    {
+        if ($user_id) {
+            return PromoUsage::where('promo_id',$promo_id)
+                ->where('user_id',$user_id)
+                ->count();
+        } else {
+            return PromoUsage::where('promo_id',$promo_id)
+                ->count();
+        }
+        
+    }
+
     public function checkPromo(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        }
+
         try {
             $validatedData = $request->validate([
                 'promo_code' => 'required|string',
@@ -22,6 +41,8 @@ class PromoController extends Controller
 
             $promo = Promo::where('promo_code', $promoCode)
                 ->where('promo_expiry_date', '>=', Carbon::now())
+                ->where('max_use','>',$this->getPromoUsage($promoCode))
+                ->where('max_use_per_user','>',$this->getPromoUsage($promoCode,Auth::user()->id))
                 ->first();
 
             if ($promo) {
@@ -46,7 +67,7 @@ class PromoController extends Controller
 
     public function postPromo(Request $request)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -72,12 +93,20 @@ class PromoController extends Controller
 
     public function getAllPromo()
     {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $allPromo = Promo::all();
         return response()->json($allPromo);
     }
 
     public function deletePromo($id)
     {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         try {
             $promo = Promo::findOrFail($id);
 

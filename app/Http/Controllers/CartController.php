@@ -12,7 +12,7 @@ class CartController extends Controller
     public function getAllUserCart()
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $results = Cart::where('user_id', Auth::user()->id)->get();
@@ -43,7 +43,7 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $valid = $request->validate([
@@ -76,7 +76,7 @@ class CartController extends Controller
     public function editQty(Request $request)
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $valid = $request->validate([
@@ -108,7 +108,7 @@ class CartController extends Controller
     public function incrementQuantity(Request $request)
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $valid = $request->validate([
@@ -138,7 +138,7 @@ class CartController extends Controller
     public function decrementQuantity(Request $request)
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $valid = $request->validate([
@@ -174,7 +174,7 @@ class CartController extends Controller
     public function removeFromCart(Request $request)
     {
         if (!Auth::check()) {
-            return response()->json(null, 200);
+            return response()->json(null, 400);
         }
 
         $valid = $request->validate([

@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('promos', function (Blueprint $table) {
+        Schema::create('promo_usages', function (Blueprint $table) {
             $table->id();
-            $table->string('promo_code');
-            $table->date('promo_expiry_date');
-            $table->integer('discount');
-            $table->integer('minimum')->default(0);
-            $table->integer('maximum')->default(0);
-            $table->integer('max_use')->default(0);
-            $table->integer('max_use_per_user')->default(1);
+            $table->foreignId('promo_id')->references('id')->on('promos')->onDelete('no action')->onUpdate('no action');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class PaypalController extends Controller
 {
@@ -13,6 +14,10 @@ class PaypalController extends Controller
 
     private function getAccessToken(): string
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        } 
+
         $clientId = config('paypal.client_id');
         $clientSecret = config('paypal.client_secret');
         $authString = base64_encode($clientId . ':' . $clientSecret);
@@ -34,6 +39,10 @@ class PaypalController extends Controller
      */
     public function create(Request $request): string
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        } 
+
         $amount = floatval($request->amount);
         $id = uuid_create();
 
@@ -71,6 +80,10 @@ class PaypalController extends Controller
      */
     public function complete()
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        } 
+        
         $url = config('paypal.base_url') . '/v2/checkout/orders/' . Session::get('order_id') . '/capture';
 
         $headers = [

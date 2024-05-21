@@ -43,6 +43,10 @@ class ProductController extends Controller
 
     public function setUserPreferences(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        }
+
         $validatedData = $request->validate([
             'acidity' => ['required', 'string', Rule::in(['low', 'medium', 'high'])],
             'flavor' => ['required', 'string', Rule::in(['earthy', 'chocolate', 'fruit', 'nutty'])],
@@ -120,6 +124,10 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
@@ -171,6 +179,10 @@ class ProductController extends Controller
 
     public function editProduct(Request $request, $id)
     {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
@@ -228,6 +240,10 @@ class ProductController extends Controller
 
     public function removeProduct($id)
     {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         try {
             $product = Product::findOrFail($id);
 
