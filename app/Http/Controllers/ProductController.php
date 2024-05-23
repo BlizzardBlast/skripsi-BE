@@ -19,7 +19,27 @@ class ProductController extends Controller
     //
     public function getAllProduct()
     {
-        $allProduct = Product::with('productAttribute')->get();
+        $allProduct = Product::with('productAttribute:id,acidity,flavor,aftertaste,sweetness,product_id')
+            ->get(['id', 'name', 'subname', 'origin', 'type', 'price', 'description', 'created_at', 'updated_at']);
+
+        $allProduct = $allProduct->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'subname' => $product->subname,
+                'origin' => $product->origin,
+                'type' => $product->type,
+                'price' => $product->price,
+                'description' => $product->description,
+                'acidity' => $product->productAttribute->acidity,
+                'flavor' => $product->productAttribute->flavor,
+                'aftertaste' => $product->productAttribute->aftertaste,
+                'sweetness' => $product->productAttribute->sweetness,
+                'created_at' => $product->created_at,
+                'updated_at' => $product->updated_at,
+            ];
+        });
+
         return response()->json($allProduct, 200);
     }
 
@@ -105,10 +125,10 @@ class ProductController extends Controller
                 ->get()
                 ->pluck('product_id')
                 ->toArray();
-            
+
             Preference::where('user_id', $user->id)->delete();
 
-            $results = Product::whereIn('id',$ids)->get();
+            $results = Product::whereIn('id', $ids)->get();
             foreach ($results as $row) {
                 $data = [
                     'user_id' => $user->id,
@@ -201,7 +221,7 @@ class ProductController extends Controller
             ]);
 
             $product = Product::findOrFail($id);
-            $productAttribute = ProductAttribute::where('product_id',$id)->firstOrFail();
+            $productAttribute = ProductAttribute::where('product_id', $id)->firstOrFail();
 
             $updateData = [
                 'name' => $validatedData['new_name'] ?? $product->name,
@@ -252,7 +272,7 @@ class ProductController extends Controller
                 Storage::delete('public/coffeeImage/' . $product->image);
             }
             $product->delete();
-            ProductAttribute::where('product_id',$id)->delete();
+            ProductAttribute::where('product_id', $id)->delete();
 
             return response()->json(['message' => 'Successfully deleted product'], 200);
         } catch (Exception $e) {
@@ -264,15 +284,15 @@ class ProductController extends Controller
 
     // public function getSortedProductByName()
     // {
-    //     $sortedProduct = Product::orderBy('name')->get();
-    //     return response()->json($sortedProduct);
+    // $sortedProduct = Product::orderBy('name')->get();
+    // return response()->json($sortedProduct);
     // }
 
     // public function getSortedProductByPrice()
     // {
 
-    //     $sortedProducts = Product::orderBy('price')->get();
+    // $sortedProducts = Product::orderBy('price')->get();
 
-    //     return response()->json($sortedProducts);
+    // return response()->json($sortedProducts);
     // }
 }
