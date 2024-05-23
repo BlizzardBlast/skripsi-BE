@@ -19,7 +19,9 @@ class Promo extends Model
         'promo_expiry_date',
         'discount',
         'minimum',
-        'maximum'
+        'maximum',
+        'max_use',
+        'max_use_per_user'
     ];
 
 
