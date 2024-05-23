@@ -153,7 +153,7 @@ class CartController extends Controller
         if ($previousData->exists()) {
             $temp = $previousData->first()->quantity - $valid['quantity'];
 
-            if ($temp == 0) {
+            if ($temp <= 0) {
                 Cart::where([
                     ['user_id', Auth::user()->id],
                     ['product_id', $valid['productId']],
