@@ -37,8 +37,8 @@ class OrderController extends Controller
     {
         if (!Auth::check()) {
             return response()->json(null, 400);
-        } 
-        
+        }
+
         $validatedData = $request->validate([
             'confirmation' => 'required',
             'total_price' => 'required|numeric|min:0',
