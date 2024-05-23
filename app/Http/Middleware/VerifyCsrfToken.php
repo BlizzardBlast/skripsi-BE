@@ -16,14 +16,20 @@ class VerifyCsrfToken extends Middleware
         '/api/sign-up',
         '/api/sign-out',
         '/api/postUpdateUserData/*',
+        '/api/addProduct',
+        '/api/editProduct/*',
+        '/api/removeProduct/*',
         '/api/setUserPref',
-        '/api/createPayment',
-        '/api/complete',
         '/api/addToCart',
         '/api/editQty',
         '/api/removeFromCart',
         '/api/incrementQuantity',
         '/api/decrementQuantity',
         '/api/postOrder',
+        '/api/createPayment',
+        '/api/complete',
+        '/api/checkPromo',
+        '/api/postPromo',
+        '/api/deletePromo/*'
     ];
 }
