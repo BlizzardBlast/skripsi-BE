@@ -19,7 +19,7 @@ class ProductController extends Controller
     //
     public function getAllProduct()
     {
-        $allProduct = Product::with('productAttribute')->all();
+        $allProduct = Product::with('productAttribute')->get();
         return response()->json($allProduct, 200);
     }
 
