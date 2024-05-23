@@ -58,9 +58,9 @@ class OrderController extends Controller
 
             OrderDetail::create([
                 'quantity' => $c->qty,
-                'product_id' => $c->qty,
+                'product_id' => $c->product_id,
                 'order_id' => $order->id,
-                'user_id' => Auth::user()->id,
+                'user_id' => $c->user_id,
             ]);
         }
 
