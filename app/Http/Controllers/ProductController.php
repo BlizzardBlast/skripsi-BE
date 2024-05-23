@@ -108,7 +108,7 @@ class ProductController extends Controller
             
             Preference::where('user_id', $user->id)->delete();
 
-            $results = Product::whereIn('id',$ids);
+            $results = Product::whereIn('id',$ids)->get();
             foreach ($results as $row) {
                 $data = [
                     'user_id' => $user->id,
