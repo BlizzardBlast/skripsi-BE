@@ -48,4 +48,8 @@ class Product extends Authenticatable
     {
         return $this->hasOne(ProductAttribute::class, 'product_id');
     }
+    public function cart()
+    {
+        return $this->hasMany(Cart::class, 'product_id');
+    }
 }
