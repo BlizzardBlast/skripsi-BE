@@ -46,6 +46,6 @@ class Product extends Authenticatable
 
     public function productAttribute()
     {
-        return $this->hasMany(OrderDetail::class, 'product_id');
+        return $this->hasOne(ProductAttribute::class, 'product_id');
     }
 }
