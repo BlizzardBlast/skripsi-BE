@@ -37,7 +37,7 @@ class CartController extends Controller
         }
 
 
-        return response()->json($response);
+        return response()->json($response, 200);
     }
 
     public function addToCart(Request $request)
@@ -52,9 +52,6 @@ class CartController extends Controller
         ]);
 
         //KALO UDAH ADA PRODUCTNYA
-
-
-
         if (Cart::where([
             ['user_id', Auth::user()->id],
             ['product_id', $valid['productId']]
@@ -103,6 +100,8 @@ class CartController extends Controller
                 'quantity' => $valid['quantity']
             ]);
         }
+
+        return response()->json(['message' => 'Successfully changed quantity'], 200);
     }
 
     public function incrementQuantity(Request $request)
@@ -132,7 +131,7 @@ class CartController extends Controller
             'quantity' => $valid['quantity']
         ]);
 
-        return response()->json(['message' => 'Successfully add quantity.'], 200);
+        return response()->json(['message' => 'Successfully incremented quantity.'], 200);
     }
 
     public function decrementQuantity(Request $request)
@@ -168,7 +167,7 @@ class CartController extends Controller
                 ]);
             }
         }
-        return response()->json(['message' => 'Successfully decrease quantity.'], 200);
+        return response()->json(['message' => 'Successfully decremented quantity.'], 200);
     }
 
     public function removeFromCart(Request $request)
@@ -185,5 +184,7 @@ class CartController extends Controller
             ['user_id', Auth::user()->id],
             ['product_id', $valid['productId']],
         ])->delete();
+
+        return response()->json(['message' => 'Successfully removed item from Cart.'], 200);
     }
 }

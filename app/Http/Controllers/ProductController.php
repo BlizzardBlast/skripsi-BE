@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function getAllProduct()
     {
         $allProduct = Product::all();
-        return response()->json($allProduct);
+        return response()->json($allProduct, 200);
     }
 
     public function filterByBean($bean)
@@ -28,7 +28,7 @@ class ProductController extends Controller
         $coffeeBeanType = $bean;
 
         $filterProduct = Product::where('type', $coffeeBeanType)->get();
-        return response()->json($filterProduct);
+        return response()->json($filterProduct, 200);
     }
 
     public function getProductImage($id)
