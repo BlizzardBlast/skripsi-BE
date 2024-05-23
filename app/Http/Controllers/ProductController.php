@@ -103,6 +103,7 @@ class ProductController extends Controller
                 ->orderBy('score')
                 ->limit(3)
                 ->get()
+                ->pluck('product_id')
                 ->toArray();
             
             Preference::where('user_id', $user->id)->delete();
