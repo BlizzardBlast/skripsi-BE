@@ -42,5 +42,10 @@ class ProductAttribute extends Authenticatable
      */
     protected $casts = [];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
 
 }

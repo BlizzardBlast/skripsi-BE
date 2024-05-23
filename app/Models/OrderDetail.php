@@ -40,8 +40,8 @@ class OrderDetail extends Authenticatable
      */
     protected $casts = [];
 
-    public function product()
+    public function order()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }
