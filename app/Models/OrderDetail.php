@@ -48,6 +48,6 @@ class OrderDetail extends Authenticatable
 
     public function product()
     {
-        return $this->hasOne(Product::class, 'id');
+        return $this->hasOne(Product::class, 'id', 'product_id');
     }
 }
