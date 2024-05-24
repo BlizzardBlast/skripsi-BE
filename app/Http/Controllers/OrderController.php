@@ -8,10 +8,26 @@ use App\Models\Product;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PromoController;
 
 class OrderController extends Controller
 {
-    //
+    public function getCartTotalPrice($cart = null){
+        $total_price = 0;
+
+        // query reuse
+        if(!$cart){
+            $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
+        }
+        
+        foreach ($cart as $c) {
+            $total_price += $c->product->price * $c->quantity;
+        }
+
+        return $total_price;
+    }
+
     public function getOrder()
     {
         if (!Auth::check()) {
@@ -39,18 +55,22 @@ class OrderController extends Controller
             return response()->json(null, 400);
         }
 
-        $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
+        $validatedData = $request->validate([
+            'promo_code' => 'nullable|string'
+        ]);
 
-        $total_price = 0;
-        foreach ($cart as $c) {
-            $total_price += $c->product->price * $c->quantity;
-        }
+        $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
+        $total_price = $this->getCartTotalPrice($cart);
+
+        $discountAmount = PromoController::class::verifyPromoAndReturnDiscount($validatedData['promo_code'], $total_price);
+        $discountAmount = $discountAmount==null ?: 0; // if invalid promocode
 
         // Create the order
         $order = Order::create([
             'user_id' => Auth::user()->id,
             'confirmation' => "Confirmed",
             'total_price' => $total_price,
+            'discount_ammount' => $discountAmount
         ]);
 
         // Create the order details
