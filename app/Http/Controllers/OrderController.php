@@ -37,13 +37,13 @@ class OrderController extends Controller
     {
         if (!Auth::check()) {
             return response()->json(null, 400);
-        } 
-        
+        }
+
         $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
 
         $total_price = 0;
         foreach ($cart as $c) {
-            $total_price += $c->product->price * $c->qty; 
+            $total_price += $c->product->price * $c->quantity;
         }
 
         // Create the order
@@ -55,16 +55,15 @@ class OrderController extends Controller
 
         // Create the order details
         foreach ($cart as $c) {
-
             OrderDetail::create([
-                'quantity' => $c->qty,
+                'quantity' => $c->quantity,
                 'product_id' => $c->product_id,
                 'order_id' => $order->id,
                 'user_id' => $c->user_id,
             ]);
         }
 
-         Cart::where('user_id', Auth::user()->id)->delete();
+        Cart::where('user_id', Auth::user()->id)->delete();
 
         return response()->json(['message' => 'Successfully added new order with details']);
     }
