@@ -96,7 +96,7 @@ class LoginController extends BaseController
     public function getUserData()
     {
         if (!Auth::check()) {
-            return response()->json(null, 400);
+            return response()->json(['message' => 'No user is currently logged in.'], 401);
         }
 
         try {
@@ -112,7 +112,7 @@ class LoginController extends BaseController
 
             return response()->json($specific, 200);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Get User Data Failed.'], 400);
+            return response()->json(['message' => 'Get User Data Failed.'], 500);
         }
     }
 
