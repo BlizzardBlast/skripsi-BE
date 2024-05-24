@@ -61,26 +61,30 @@ class LoginController extends BaseController
     // sign in
     public function signIn(Request $request)
     {
+        $response = ['message' => 'Sign In Failed.', 'status' => 400];
+
         if (Auth::check()) {
-            return response()->json(['message' => 'Already signed in.'], 400);
-        }
+            $response = ['message' => 'Already signed in.', 'status' => 400];
+        } else {
+            try {
+                $credentials = $request->validate([
+                    'email' => ['required', 'email:dns'],
+                    'password' => ['required']
+                ]);
 
-        try {
-            $credentials = $request->validate([
-                'email' => ['required', 'email:dns'],
-                'password' => ['required']
-            ]);
-
-            if (Auth::attempt($credentials)) {
-                return response()->json(['message' => 'Sign In Successful!'], 200);
-            } else {
-                return response()->json(['message' => 'Invalid credentials.'], 400);
+                if (Auth::attempt($credentials)) {
+                    $response = ['message' => 'Sign In Successful!', 'status' => 200];
+                } else {
+                    $response = ['message' => 'Invalid credentials.', 'status' => 400];
+                }
+            } catch (ValidationException $e) {
+                $response = ['message' => $e->getMessage(), 'status' => 400];
+            } catch (Exception $e) {
+                $response = ['message' => 'Sign In Failed.', 'status' => 400];
             }
-        } catch (ValidationException $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        } catch (Exception $e) {
-            return response()->json(['message' => 'Sign In Failed.'], 400);
         }
+
+        return response()->json(['message' => $response['message']], $response['status']);
     }
 
     // return user data for FE
