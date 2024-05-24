@@ -46,12 +46,16 @@ class OrderController extends Controller
             $total_price += $c->product->price * $c->quantity;
         }
 
+        $validatedData = $request->validate([
+            'discount_amount' => 'required|numeric'
+        ]);
+
         // Create the order
         $order = Order::create([
             'user_id' => Auth::user()->id,
             'confirmation' => "Confirmed",
             'total_price' => $total_price,
-            'discount_amount' => $request->discount_amount
+            'discount_amount' => $validatedData['discount_amount']
         ]);
 
 
