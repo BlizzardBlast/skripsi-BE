@@ -11,19 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class PromoController extends Controller
 {
-    private function getPromoUsage($promo_code, $user_id=null)
+    private function getPromoUsage($promo_code, $user_id = null)
     {
 
-        $promoId = Promo::where('promo_code',$promo_code)->pluck('id')->first();
+        $promoId = Promo::where('promo_code', $promo_code)->pluck('id')->first();
         if ($user_id) {
-            return PromoUsage::where('promo_id',$promoId)
-                ->where('user_id',$user_id)
+            return PromoUsage::where('promo_id', $promoId)
+                ->where('user_id', $user_id)
                 ->count();
         } else {
-            return PromoUsage::where('promo_id',$promoId)
+            return PromoUsage::where('promo_id', $promoId)
                 ->count();
         }
-
     }
 
     public function checkPromo(Request $request)
@@ -43,8 +42,8 @@ class PromoController extends Controller
 
             $promo = Promo::where('promo_code', $promoCode)
                 ->where('promo_expiry_date', '>=', Carbon::now())
-                ->where('max_use','>',$this->getPromoUsage($promoCode))
-                ->where('max_use_per_user','>',$this->getPromoUsage($promoCode,Auth::user()->id))
+                ->where('max_use', '>', $this->getPromoUsage($promoCode))
+                ->where('max_use_per_user', '>', $this->getPromoUsage($promoCode, Auth::user()->id))
                 ->first();
 
             if ($promo) {
@@ -77,11 +76,11 @@ class PromoController extends Controller
             $validatedData = $request->validate([
                 'promo_code' => 'required',
                 'promo_expiry_date' => 'required',
-                'discount' => 'required',
-                'minimum' => 'nullable',
-                'maximum' => 'nullable',
-                'max_use' => 'required',
-                'max_use_per_use' => 'required'
+                'discount' => 'required|integer',
+                'minimum' => 'nullable|integer',
+                'maximum' => 'nullable|integer',
+                'max_use' => 'required|integer',
+                'max_use_per_user' => 'required|integer'
             ]);
 
             $validatedData['promo_expiry_date'] = Carbon::parse($validatedData['promo_expiry_date'])->format('Y-m-d H:i:s');
