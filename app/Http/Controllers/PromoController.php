@@ -27,20 +27,21 @@ class PromoController extends Controller
     // return null if invalid, 9 if no promo code, else returns discount
     public function verifyPromoAndReturnDiscount($promo_code, $total_price)
     {
-        if(!$promo_code) {
+        if (!$promo_code) {
             return 0;
         }
-        
-        $promo = Promo::where('promo_code', $promo_code)
-                ->where('promo_expiry_date', '>=', Carbon::now())
-                ->first();
 
-        if ($promo
+        $promo = Promo::where('promo_code', $promo_code)
+            ->where('promo_expiry_date', '>=', Carbon::now())
+            ->first();
+
+        if (
+            $promo
             && $promo->max_use >  $this->getPromoUsage($promo->id)
             && $promo->max_use_per_user >  $this->getPromoUsage($promo->id, Auth::user()->id)
         ) {
             if (isset($promo->minimum) && $total_price < $promo->minimum) {
-                return response()->json(['message' => 'Promo Denied. Minimum total price not met.'], 400);
+                return null;
             }
             $discountAmount = ($total_price * $promo->discount) / 100;
 
@@ -66,18 +67,19 @@ class PromoController extends Controller
             ]);
 
             $promoCode = $validatedData['promo_code'];
-            $totalPrice = OrderController::class::getCartTotalPrice();
+            $orderController = new OrderController();
+            $totalPrice = $orderController->getCartTotalPrice();
 
             $discountAmount = $this->verifyPromoAndReturnDiscount($promoCode, $totalPrice);
 
-            if($discountAmount){
+            if ($discountAmount) {
                 return response()->json(['discount' => $discountAmount], 200);
-            }
-            else{
+            } elseif ($discountAmount === null) {
+                return response()->json(['message' => 'Promo Denied. Invalid promo code, expired, or minimum total price not met.'], 400);
+            } else {
                 return response()->json(['message' => 'Promo Denied. Invalid promo code or expired.'], 400);
             }
-            
-        } catch (Exception $e) {
+        } catch (Exception) {
             return response()->json(['message' => 'Promo Denied. An error occurred.'], 400);
         }
     }
