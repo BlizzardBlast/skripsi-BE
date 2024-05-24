@@ -11,17 +11,17 @@ use Illuminate\Support\Facades\Auth;
 
 class PromoController extends Controller
 {
-    private function getPromoUsage($promo_id, $user_id=null)
+    private function getPromoUsage($promo_code, $user_id=null)
     {
         if ($user_id) {
-            return PromoUsage::where('promo_id',$promo_id)
+            return PromoUsage::where('promo_id',$promo_code)
                 ->where('user_id',$user_id)
                 ->count();
         } else {
-            return PromoUsage::where('promo_id',$promo_id)
+            return PromoUsage::where('promo_id',$promo_code)
                 ->count();
         }
-        
+
     }
 
     public function checkPromo(Request $request)
