@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->string('confirmation');
             $table->integer('total_price');
+            $table->integer('discount_amount')->default(0);
             $table->timestamps();
         });
     }

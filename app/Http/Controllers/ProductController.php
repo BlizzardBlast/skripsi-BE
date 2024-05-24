@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use PhpOption\None;
 
 class ProductController extends Controller
 {
@@ -279,20 +278,4 @@ class ProductController extends Controller
             return response()->json(['message' => 'Failed to delete product.', 'error' => $e->getMessage()], 400);
         }
     }
-
-
-
-    // public function getSortedProductByName()
-    // {
-    // $sortedProduct = Product::orderBy('name')->get();
-    // return response()->json($sortedProduct);
-    // }
-
-    // public function getSortedProductByPrice()
-    // {
-
-    // $sortedProducts = Product::orderBy('price')->get();
-
-    // return response()->json($sortedProducts);
-    // }
 }
