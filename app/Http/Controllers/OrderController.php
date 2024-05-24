@@ -64,7 +64,7 @@ class OrderController extends Controller
 
         $promoController = new PromoController();
         $discountAmount = $promoController->verifyPromoAndReturnDiscount($validatedData['promo_code'], $total_price);
-        $discountAmount = $discountAmount == null ?: 0; // if invalid promocode
+        $discountAmount = $discountAmount == null ? 0 : $discountAmount; // if invalid promocode
 
         // Create the order
         $order = Order::create([
@@ -86,6 +86,6 @@ class OrderController extends Controller
 
         Cart::where('user_id', Auth::user()->id)->delete();
 
-        return response()->json(['message' => 'Successfully added new order with details']);
+        return response()->json(['message' => 'Successfully added new order with details'], 200);
     }
 }
