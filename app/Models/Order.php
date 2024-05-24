@@ -19,7 +19,8 @@ class Order extends Authenticatable
     protected $fillable = [
         'user_id', // FK
         'total_price',
-        'confirmation'
+        'confirmation',
+        'discount_amount'
     ];
 
     protected $primaryKey = 'id';

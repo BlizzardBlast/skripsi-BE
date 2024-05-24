@@ -51,7 +51,10 @@ class OrderController extends Controller
             'user_id' => Auth::user()->id,
             'confirmation' => "Confirmed",
             'total_price' => $total_price,
+            'discount_amount' => $request->discount_amount
         ]);
+
+
 
         // Create the order details
         foreach ($cart as $c) {
