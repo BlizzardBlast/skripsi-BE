@@ -12,14 +12,15 @@ use App\Http\Controllers\PromoController;
 
 class OrderController extends Controller
 {
-    public function getCartTotalPrice($cart = null){
+    public function getCartTotalPrice($cart = null)
+    {
         $total_price = 0;
 
         // query reuse
-        if(!$cart){
+        if (!$cart) {
             $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
         }
-        
+
         foreach ($cart as $c) {
             $total_price += $c->product->price * $c->quantity;
         }
@@ -61,8 +62,9 @@ class OrderController extends Controller
         $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
         $total_price = $this->getCartTotalPrice($cart);
 
-        $discountAmount = PromoController::class::verifyPromoAndReturnDiscount($validatedData['promo_code'], $total_price);
-        $discountAmount = $discountAmount==null ?: 0; // if invalid promocode
+        $promoController = new PromoController();
+        $discountAmount = $promoController->verifyPromoAndReturnDiscount($validatedData['promo_code'], $total_price);
+        $discountAmount = $discountAmount == null ?: 0; // if invalid promocode
 
         // Create the order
         $order = Order::create([
