@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends BaseController
 {
@@ -29,27 +30,20 @@ class LoginController extends BaseController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // return redirect('/signIn');
         return response()->json(['message' => 'Signed Out.'], 200);
     }
     public function signUp(Request $request)
     {
         if (Auth::check()) {
-            return response()->json(null, 400);
+            return response()->json(null, 403);
         }
 
         try {
-
-
             $validatedData = $request->validate([
                 'name' => 'required|min:3|max:255',
                 'username' => 'required|min:3|max:255',
                 'email' => 'required|email:dns|unique:users',
                 'password' => 'required|min:8|max:255|regex:/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/'
-                // 'name' => 'required',
-                // 'username' => 'required',
-                // 'email' => 'required',
-                // 'password' => 'required'
             ]);
 
             $validatedData['password'] = bcrypt($validatedData['password']);
@@ -57,37 +51,35 @@ class LoginController extends BaseController
             User::create($validatedData);
 
             return response()->json(['message' => 'Sign up Success.'], 200);
-        } catch (Exception $e) {
-            return response()->json(['message' => 'Sign up Failed.'], 400);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->status);
+        } catch (Exception) {
+            return response()->json(['message' => 'Sign up failed.'], 400);
         }
     }
 
     // sign in
     public function signIn(Request $request)
     {
-        if (Auth::check()) {
-            return response()->json(null, 400);
-        }
+        $response = ['message' => 'Sign In Failed.', 'status' => 400];
 
-        $valid = null;
+        if (!Auth::check()) {
+            try {
+                $valid = $request->validate([
+                    'email' => ['required', 'email:dns'],
+                    'password' => ['required']
+                ]);
 
-        try {
-            $valid = $request->validate([
-                'email' => ['required', 'email:dns'],
-                'password' => ['required']
-            ]);
-
-
-
-            if (Auth::attempt($valid)) {
-                return response()->json(
-                    ['message' => 'Sign In Successful!'],
-                    200
-                );
+                if (Auth::attempt($valid)) {
+                    $response = ['message' => 'Sign In Successful!', 'status' => 200];
+                }
+            } catch (Exception) {
+                // Exception is caught but we don't do anything with it because
+                // we already set the default response as failure.
             }
-        } catch (Exception $e) {
-            return response()->json(['message' => 'Sign In Failed.'], 400);
         }
+
+        return response()->json(['message' => $response['message']], $response['status']);
     }
 
     // return user data for FE
