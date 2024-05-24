@@ -14,11 +14,11 @@ class PromoController extends Controller
     private function getPromoUsage($promo_code, $user_id=null)
     {
         if ($user_id) {
-            return PromoUsage::where('promo_id',$promo_code)
+            return PromoUsage::where('promo_code',$promo_code)
                 ->where('user_id',$user_id)
                 ->count();
         } else {
-            return PromoUsage::where('promo_id',$promo_code)
+            return PromoUsage::where('promo_code',$promo_code)
                 ->count();
         }
 
