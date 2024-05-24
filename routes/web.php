@@ -42,12 +42,12 @@ Route::prefix('/api')->group(function () {
     Route::get('/filterByBean/{bean}', [ProductController::class, 'filterByBean']);
 
     // PRODUCT CONTROL
-    Route::middleware(['admin'])->group(function(){
+    Route::middleware(['admin'])->group(function () {
         Route::post('/addProduct', [ProductController::class, 'addProduct']);
         Route::post('/editProduct/{id}', [ProductController::class, 'editProduct']);
         Route::post('/removeProduct/{id}', [ProductController::class, 'removeProduct']);
     });
-        
+
     // RECOMMENDATION
     Route::get('/getUserPref/{refresh}', [ProductController::class, 'getUserPreferences']);
     Route::post('/setUserPref', [ProductController::class, 'setUserPreferences']);
@@ -75,7 +75,7 @@ Route::prefix('/api')->group(function () {
     Route::get('/getAllPromo', [PromoController::class, 'getAllPromo']);
 
     // PROMO CONTROL
-    Route::middleware(['admin'])->group(function(){
+    Route::middleware(['admin'])->group(function () {
         Route::post('/postPromo', [PromoController::class, 'postPromo']);
         Route::post('/deletePromo/{id}', [PromoController::class, 'deletePromo']);
     });
