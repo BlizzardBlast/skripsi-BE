@@ -23,7 +23,7 @@ class LoginController extends BaseController
     public function signOut(Request $request)
     {
         if (!Auth::check()) {
-            return response()->json(null, 400);
+            return response()->json(['message' => 'No user is currently signed in.'], 401);
         }
 
         Auth::guard(name: 'web')->logout();
@@ -32,30 +32,35 @@ class LoginController extends BaseController
 
         return response()->json(['message' => 'Signed Out.'], 200);
     }
+
     public function signUp(Request $request)
     {
+        $response = ['message' => 'Sign up failed.', 'status' => 400];
+
         if (Auth::check()) {
-            return response()->json(null, 403);
+            $response = ['message' => 'You are already signed in.', 'status' => 403];
+        } else {
+            try {
+                $validatedData = $request->validate([
+                    'name' => 'required|min:3|max:255',
+                    'username' => 'required|min:3|max:255',
+                    'email' => 'required|email:dns|unique:users',
+                    'password' => 'required|min:8|max:255|regex:/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/'
+                ]);
+
+                $validatedData['password'] = bcrypt($validatedData['password']);
+
+                User::create($validatedData);
+
+                $response = ['message' => 'Sign up Success.', 'status' => 200];
+            } catch (ValidationException $e) {
+                $response = ['message' => $e->getMessage(), 'status' => $e->status];
+            } catch (Exception $e) {
+                $response = ['message' => 'Sign up failed.', 'status' => 400];
+            }
         }
 
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|min:3|max:255',
-                'username' => 'required|min:3|max:255',
-                'email' => 'required|email:dns|unique:users',
-                'password' => 'required|min:8|max:255|regex:/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/'
-            ]);
-
-            $validatedData['password'] = bcrypt($validatedData['password']);
-
-            User::create($validatedData);
-
-            return response()->json(['message' => 'Sign up Success.'], 200);
-        } catch (ValidationException $e) {
-            return response()->json(['message' => $e->getMessage()], $e->status);
-        } catch (Exception) {
-            return response()->json(['message' => 'Sign up failed.'], 400);
-        }
+        return response()->json(['message' => $response['message']], $response['status']);
     }
 
     // sign in
