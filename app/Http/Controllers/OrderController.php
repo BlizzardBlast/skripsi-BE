@@ -71,7 +71,7 @@ class OrderController extends Controller
             'user_id' => Auth::user()->id,
             'confirmation' => "Confirmed",
             'total_price' => $total_price,
-            'discount_ammount' => $discountAmount
+            'discount_amount' => $discountAmount
         ]);
 
         // Create the order details
