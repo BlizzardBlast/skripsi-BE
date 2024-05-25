@@ -24,7 +24,6 @@ use App\Http\Controllers\PromoController;
 // });
 
 Route::prefix('/api')->group(function () {
-
     // LOGIN
     Route::post('/sign-in', [LoginController::class, 'signIn']);
     Route::post('/sign-up', [LoginController::class, 'signUp']);
