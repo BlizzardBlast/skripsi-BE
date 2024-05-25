@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,5 +78,9 @@ Route::prefix('/api')->group(function () {
     Route::middleware(['admin'])->group(function () {
         Route::post('/postPromo', [PromoController::class, 'postPromo']);
         Route::post('/deletePromo/{id}', [PromoController::class, 'deletePromo']);
+    });
+
+    Route::get('/link-storage', function () {
+        Artisan::call('storage:link');
     });
 });
