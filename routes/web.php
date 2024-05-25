@@ -81,6 +81,12 @@ Route::prefix('/api')->group(function () {
     });
 
     Route::get('/link-storage', function () {
-        Artisan::call('storage:link');
+        try {
+            if (!file_exists(public_path('storage'))) {
+                Artisan::call('storage:link');
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e], 500);
+        }
     });
 });
