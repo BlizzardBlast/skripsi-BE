@@ -103,7 +103,6 @@ class PromoController extends Controller
                 'max_use' => 'required|integer',
                 'max_use_per_user' => 'required|integer'
             ]);
-
             $validatedData['promo_start_date'] = Carbon::parse($validatedData['promo_start_date'])->format('Y-m-d H:i:s');
             $validatedData['promo_expiry_date'] = Carbon::parse($validatedData['promo_expiry_date'])->format('Y-m-d H:i:s');
 
