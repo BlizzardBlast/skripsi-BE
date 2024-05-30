@@ -28,32 +28,43 @@ class PromoController extends Controller
     public function verifyPromoAndReturnDiscount($promo_code, $total_price)
     {
         if (!$promo_code) {
-            return 0;
+            return response()->json(['message' => 'Promo code is required'], 400);
         }
 
         $promo = Promo::where('promo_code', $promo_code)
-            ->where('promo_start_date', '<=', Carbon::now()) // Check promo_start_date
-            ->where('promo_expiry_date', '>=', Carbon::now())
             ->first();
 
-        if (
-            $promo
-            && $promo->max_use >  $this->getPromoUsage($promo->id)
-            && $promo->max_use_per_user >  $this->getPromoUsage($promo->id, Auth::user()->id)
-        ) {
-            if (isset($promo->minimum) && $total_price < $promo->minimum) {
-                return null;
-            }
-            $discountAmount = ($total_price * $promo->discount) / 100;
-
-            if ($promo->maximum > 0 && $discountAmount > $promo->maximum) {
-                $discountAmount = $promo->maximum;
-            }
-
-            return $discountAmount;
-        } else {
-            return null;
+        if (!$promo) {
+            return response()->json(['message' => 'Promo code is invalid'], 404);
         }
+
+        if ($promo->promo_start_date > Carbon::now()) {
+            return response()->json(['message' => 'Promo hasn\'t started yet'], 400);
+        }
+
+        if ($promo->promo_expiry_date < Carbon::now()) {
+            return response()->json(['message' => 'Promo already expired'], 400);
+        }
+
+        if ($promo->max_use <= $this->getPromoUsage($promo->id)) {
+            return response()->json(['message' => 'Promo has reached its maximum quota'], 400);
+        }
+
+        if ($promo->max_use_per_user <= $this->getPromoUsage($promo->id, Auth::user()->id)) {
+            return response()->json(['message' => 'You have reached the maximum usage for this promo'], 400);
+        }
+
+        if (isset($promo->minimum) && $total_price < $promo->minimum) {
+            return response()->json(['message' => 'Total price does not meet the minimum requirement for this promo'], 400);
+        }
+
+        $discountAmount = ($total_price * $promo->discount) / 100;
+
+        if ($promo->maximum > 0 && $discountAmount > $promo->maximum) {
+            $discountAmount = $promo->maximum;
+        }
+
+        return response()->json(['discountAmount' => $discountAmount], 200);
     }
 
     public function checkPromo(Request $request)
