@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('promos', function (Blueprint $table) {
             $table->id();
             $table->string('promo_code');
+            $table->date('promo_start_date');
             $table->date('promo_expiry_date');
             $table->integer('discount');
             $table->integer('minimum')->default(0);

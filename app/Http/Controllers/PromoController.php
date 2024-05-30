@@ -32,6 +32,7 @@ class PromoController extends Controller
         }
 
         $promo = Promo::where('promo_code', $promo_code)
+            ->where('promo_start_date', '<=', Carbon::now()) // Check promo_start_date
             ->where('promo_expiry_date', '>=', Carbon::now())
             ->first();
 
@@ -94,6 +95,7 @@ class PromoController extends Controller
         try {
             $validatedData = $request->validate([
                 'promo_code' => 'required',
+                'promo_start_date' => 'required',
                 'promo_expiry_date' => 'required',
                 'discount' => 'required|integer',
                 'minimum' => 'nullable|integer',
@@ -102,6 +104,7 @@ class PromoController extends Controller
                 'max_use_per_user' => 'required|integer'
             ]);
 
+            $validatedData['promo_start_date'] = Carbon::parse($validatedData['promo_start_date'])->format('Y-m-d H:i:s');
             $validatedData['promo_expiry_date'] = Carbon::parse($validatedData['promo_expiry_date'])->format('Y-m-d H:i:s');
 
             Promo::create($validatedData);
