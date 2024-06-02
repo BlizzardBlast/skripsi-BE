@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
 
@@ -56,7 +57,8 @@ class OrderController extends Controller
         }
 
         $validatedData = $request->validate([
-            'promo_code' => 'nullable|string'
+            'promo_code' => 'nullable|string',
+            'roasting_type' => ['required', 'string', Rule::in(['faint', 'noticeable', 'rich'])]
         ]);
 
         $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
@@ -71,13 +73,15 @@ class OrderController extends Controller
             'user_id' => Auth::user()->id,
             'confirmation' => "Confirmed",
             'total_price' => $total_price,
-            'discount_amount' => $discountAmount
+            'discount_amount' => $discountAmount,
+            'roasting_type' => $validatedData['roasting_type']
         ]);
 
         // Create the order details
         foreach ($cart as $c) {
             OrderDetail::create([
                 'quantity' => $c->quantity,
+                'roasting_type' => $c->roasting_type,
                 'product_id' => $c->product_id,
                 'order_id' => $order->id,
                 'user_id' => $c->user_id,

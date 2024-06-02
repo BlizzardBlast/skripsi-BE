@@ -21,7 +21,8 @@ class OrderDetail extends Authenticatable
         'order_id', // FK
         'user_id', // FK
         'product_id', // FK
-        'quantity'
+        'quantity',
+        'roasting_type' // low || medium || high
     ];
 
     protected $primaryKey = 'id';
