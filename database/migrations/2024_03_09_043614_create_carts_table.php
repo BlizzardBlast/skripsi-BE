@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
+            $table->string('roasting_type'); // low || medium || high
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->foreignId('product_id')->nullable()->references('id')->on('products')->onDelete('no action')->onUpdate('no action');
             $table->timestamps();

@@ -19,7 +19,8 @@ class Cart extends Authenticatable
     protected $fillable = [
         'user_id', // FK
         'product_id', // FK
-        'quantity'
+        'quantity',
+        'roasting_type' // low || medium || high
     ];
 
     protected $primaryKey = null;
