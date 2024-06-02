@@ -30,7 +30,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'high',
             'flavor' => 'fruit',
             'aftertaste' => 'short',
-            'sweetness' => 'rich'
+            'sweetness' => 'rich',
+            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -47,7 +48,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'high',
             'flavor' => 'fruit',
             'aftertaste' => 'lingering',
-            'sweetness' => 'noticeable'
+            'sweetness' => 'noticeable',
+            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -64,7 +66,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'fruit',
             'aftertaste' => 'lingering',
-            'sweetness' => 'noticeable'
+            'sweetness' => 'noticeable',
+            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -83,7 +86,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'high',
             'flavor' => 'fruit',
             'aftertaste' => 'lingering',
-            'sweetness' => 'rich'
+            'sweetness' => 'rich',
+            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -100,7 +104,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'low',
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
-            'sweetness' => 'rich'
+            'sweetness' => 'rich',
+            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -117,7 +122,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'fruit',
             'aftertaste' => 'short',
-            'sweetness' => 'noticeable'
+            'sweetness' => 'noticeable',
+            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -135,7 +141,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'chocolate',
             'aftertaste' => 'short',
-            'sweetness' => 'noticeable'
+            'sweetness' => 'noticeable',
+            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -152,7 +159,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'fruit',
             'aftertaste' => 'complex',
-            'sweetness' => 'noticeable'
+            'sweetness' => 'noticeable',
+            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -170,7 +178,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
-            'sweetness' => 'noticeable'
+            'sweetness' => 'noticeable',
+            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -188,7 +197,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'earthy',
             'aftertaste' => 'short',
-            'sweetness' => 'faint'
+            'sweetness' => 'faint',
+            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -204,7 +214,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'low',
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
-            'sweetness' => 'faint'
+            'sweetness' => 'faint',
+            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -221,7 +232,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'low',
             'flavor' => 'chocolate',
             'aftertaste' => 'lingering',
-            'sweetness' => 'rich'
+            'sweetness' => 'rich',
+            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -238,7 +250,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'nutty',
             'aftertaste' => 'lingering',
-            'sweetness' => 'rich'
+            'sweetness' => 'rich',
+            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -254,7 +267,8 @@ class ProductsSeeder extends Seeder
             'acidity' => 'medium',
             'flavor' => 'nutty',
             'aftertaste' => 'short',
-            'sweetness' => 'rich'
+            'sweetness' => 'rich',
+            'roasting_type' => 'medium'
         ]);
     }
 }

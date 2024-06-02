@@ -21,7 +21,8 @@ class ProductAttribute extends Authenticatable
         'acidity',
         'flavor',
         'aftertaste',
-        'sweetness'
+        'sweetness',
+        'roasting_type'
     ];
 
 
