@@ -31,7 +31,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'fruit',
             'aftertaste' => 'short',
             'sweetness' => 'rich',
-            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -49,7 +48,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'fruit',
             'aftertaste' => 'lingering',
             'sweetness' => 'noticeable',
-            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -59,7 +57,7 @@ class ProductsSeeder extends Seeder
             'type' => 'Arabica',
             'price' => '9000',
             'description' => 'Exceptional coffee from Uganda is still relatively rare, but the best cups are sweet, full
-            of dark fruits and have a clean finish.'           
+            of dark fruits and have a clean finish.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '3',
@@ -67,7 +65,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'fruit',
             'aftertaste' => 'lingering',
             'sweetness' => 'noticeable',
-            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -79,7 +76,7 @@ class ProductsSeeder extends Seeder
             'description' => 'The better coffees coming from China have a pleasant sweetness and fruitiness, though
             many still carry a little woodiness or earthiness too. Relatively low in acidity and often
             relatively full-bodied.
-            '  
+            '
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '4',
@@ -87,7 +84,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'fruit',
             'aftertaste' => 'lingering',
             'sweetness' => 'rich',
-            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -105,7 +101,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
             'sweetness' => 'rich',
-            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -123,7 +118,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'fruit',
             'aftertaste' => 'short',
             'sweetness' => 'noticeable',
-            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -142,7 +136,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'chocolate',
             'aftertaste' => 'short',
             'sweetness' => 'noticeable',
-            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -152,7 +145,7 @@ class ProductsSeeder extends Seeder
             'type' => 'Caturra',
             'price' => '9000',
             'description' => 'Nicaragua coffee are typically quite complex
-            and capable of pleasing fruit-like flavours and clean acidity.' 
+            and capable of pleasing fruit-like flavours and clean acidity.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '8',
@@ -160,7 +153,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'fruit',
             'aftertaste' => 'complex',
             'sweetness' => 'noticeable',
-            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -179,7 +171,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
             'sweetness' => 'noticeable',
-            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -190,7 +181,7 @@ class ProductsSeeder extends Seeder
             'price' => '9000',
             'description' => 'Typically Peruvian coffees have been clean, but a little soft and flat. They are sweet and
             relatively heavy bodied but not very complex. Increasingly there are distinctive and
-            juicier coffees becoming available.' 
+            juicier coffees becoming available.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '10',
@@ -198,7 +189,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'earthy',
             'aftertaste' => 'short',
             'sweetness' => 'faint',
-            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -215,7 +205,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
             'sweetness' => 'faint',
-            'roasting_type' => 'medium'
         ]);
 
         DB::table('products')->insert([
@@ -233,7 +222,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'chocolate',
             'aftertaste' => 'lingering',
             'sweetness' => 'rich',
-            'roasting_type' => 'high'
         ]);
 
         DB::table('products')->insert([
@@ -251,7 +239,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'nutty',
             'aftertaste' => 'lingering',
             'sweetness' => 'rich',
-            'roasting_type' => 'low'
         ]);
 
         DB::table('products')->insert([
@@ -268,7 +255,6 @@ class ProductsSeeder extends Seeder
             'flavor' => 'nutty',
             'aftertaste' => 'short',
             'sweetness' => 'rich',
-            'roasting_type' => 'medium'
         ]);
     }
 }

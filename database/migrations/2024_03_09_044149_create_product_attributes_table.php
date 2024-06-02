@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('flavor'); // earthy || chocolate || fruit || nutty
             $table->string('aftertaste'); // complex || lingering || short
             $table->string('sweetness'); // faint || noticeable || rich
-            $table->string('roasting_type'); // low || medium || high
             $table->timestamps();
         });
     }

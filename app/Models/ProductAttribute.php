@@ -22,7 +22,6 @@ class ProductAttribute extends Authenticatable
         'flavor',
         'aftertaste',
         'sweetness',
-        'roasting_type'
     ];
 
 
@@ -47,6 +46,4 @@ class ProductAttribute extends Authenticatable
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
-
-
 }

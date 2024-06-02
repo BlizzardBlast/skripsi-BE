@@ -18,7 +18,7 @@ class ProductController extends Controller
     //
     public function getAllProduct()
     {
-        $allProduct = Product::with('productAttribute:id,acidity,flavor,aftertaste,sweetness,roasting_type,product_id')
+        $allProduct = Product::with('productAttribute:id,acidity,flavor,aftertaste,sweetness,product_id')
             ->get(['id', 'name', 'subname', 'origin', 'type', 'price', 'description', 'created_at', 'updated_at']);
 
         $allProduct = $allProduct->map(function ($product) {
@@ -34,7 +34,6 @@ class ProductController extends Controller
                 'flavor' => $product->productAttribute->flavor,
                 'aftertaste' => $product->productAttribute->aftertaste,
                 'sweetness' => $product->productAttribute->sweetness,
-                'roasting_type' => $product->productAttribute->roasting_type,
                 'created_at' => $product->created_at,
                 'updated_at' => $product->updated_at,
             ];
@@ -72,14 +71,12 @@ class ProductController extends Controller
             'flavor' => ['required', 'string', Rule::in(['earthy', 'chocolate', 'fruit', 'nutty'])],
             'aftertaste' => ['required', 'string', Rule::in(['complex', 'lingering', 'short'])],
             'sweetness' => ['required', 'string', Rule::in(['faint', 'noticeable', 'rich'])],
-            'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])],
         ]);
         $userPref = [
             'acidity' => $validatedData['acidity'],
             'flavor' => $validatedData['flavor'],
             'aftertaste' => $validatedData['aftertaste'],
             'sweetness' => $validatedData['sweetness'],
-            'roasting_type' => $validatedData['roasting_type']
         ];
 
         $userPref = json_encode($userPref);
@@ -165,7 +162,6 @@ class ProductController extends Controller
                 'flavor' => ['required', 'string', Rule::in(['earthy', 'chocolate', 'fruit', 'nutty'])],
                 'aftertaste' => ['required', 'string', Rule::in(['complex', 'lingering', 'short'])],
                 'sweetness' => ['required', 'string', Rule::in(['faint', 'noticeable', 'rich'])],
-                'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])],
             ]);
 
             $nextProductId = DB::table('products')->max('id') + 1;
@@ -193,7 +189,6 @@ class ProductController extends Controller
                 'flavor' => $validatedData['flavor'],
                 'aftertaste' => $validatedData['aftertaste'],
                 'sweetness' => $validatedData['sweetness'],
-                'roasting_type' => $validatedData['roasting_type']
             ]);
 
             return response()->json(['message' => 'Successfully added Product.'], 200);
@@ -222,7 +217,6 @@ class ProductController extends Controller
                 'new_flavor' => ['nullable', 'string', Rule::in(['earthy', 'chocolate', 'fruit', 'nutty'])],
                 'new_aftertaste' => ['nullable', 'string', Rule::in(['complex', 'lingering', 'short'])],
                 'new_sweetness' => ['nullable', 'string', Rule::in(['faint', 'noticeable', 'rich'])],
-                'new_roasting_type' => ['nullable', 'string', Rule::in(['low', 'medium', 'high'])],
             ]);
 
             $product = Product::findOrFail($id);
@@ -241,7 +235,6 @@ class ProductController extends Controller
                 'flavor' => $validatedData['new_flavor'] ?? $product->flavor,
                 'aftertaste' => $validatedData['new_aftertaste'] ?? $product->aftertaste,
                 'sweetness' => $validatedData['new_sweetness'] ?? $product->sweetness,
-                'roasting_type' => $validatedData['new_roasting_type'] ?? $product->new_roasting_type
             ];
 
             if ($request->hasFile('new_image')) {
