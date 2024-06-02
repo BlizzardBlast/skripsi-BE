@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -48,7 +49,8 @@ class CartController extends Controller
 
         $valid = $request->validate([
             'productId' => ['required', 'integer'],
-            'quantity' => ['required', 'integer']
+            'quantity' => ['required', 'integer'],
+            'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])]
         ]);
 
         //KALO UDAH ADA PRODUCTNYA
@@ -63,7 +65,8 @@ class CartController extends Controller
             $data = [
                 'user_id' => Auth::user()->id,
                 'product_id' => $valid['productId'],
-                'quantity' => $valid['quantity']
+                'quantity' => $valid['quantity'],
+                'roasting_type' => $valid['roasting_type']
             ];
             Cart::create($data);
         }
