@@ -29,7 +29,8 @@ class CartController extends Controller
                 $response[] = [
                     'userId' => $data['userId'],
                     'quantity' => $data['quantity'],
-                    'product' => $product // Include the product details
+                    'product' => $product, // Include the product details
+                    'roasting_type' => $data['roasting_type']
                 ];
             } else {
                 // If product doesn't exist, you might handle this case differently

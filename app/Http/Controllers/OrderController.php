@@ -58,7 +58,6 @@ class OrderController extends Controller
 
         $validatedData = $request->validate([
             'promo_code' => 'nullable|string',
-            'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])]
         ]);
 
         $cart = Cart::where('user_id', Auth::user()->id)->with('product')->get();
@@ -74,7 +73,6 @@ class OrderController extends Controller
             'confirmation' => "Confirmed",
             'total_price' => $total_price,
             'discount_amount' => $discountAmount,
-            'roasting_type' => $validatedData['roasting_type']
         ]);
 
         // Create the order details
