@@ -173,6 +173,27 @@ class CartController extends Controller
         return response()->json(['message' => 'Successfully decremented quantity.'], 200);
     }
 
+    public function changeRoastingType(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(null, 400);
+        }
+
+        $valid = $request->validate([
+            'productId' => ['required', 'integer'],
+            'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])]
+        ]);
+
+    Cart::where([
+        ['user_id', Auth::user()->id],
+        ['product_id', $valid['productId']],
+    ])->update([
+        'roasting_type' => $valid['roasting_type']
+    ]);
+
+        return response()->json(['message' => 'Successfully changed quantity'], 200);
+    }
+
     public function removeFromCart(Request $request)
     {
         if (!Auth::check()) {

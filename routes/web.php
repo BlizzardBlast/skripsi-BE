@@ -60,6 +60,7 @@ Route::prefix('/api')->group(function () {
     Route::post('/removeFromCart', [CartController::class, 'removeFromCart']);
     Route::post('/incrementQuantity', [CartController::class, 'incrementQuantity']);
     Route::post('/decrementQuantity', [CartController::class, 'decrementQuantity']);
+    Route::post('/changeRoastingType', [CartController::class, 'changeRoastingType']);
 
     // ORDER
     Route::get('/getOrder', [OrderController::class, 'getOrder']);
