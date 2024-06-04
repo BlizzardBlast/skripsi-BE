@@ -52,7 +52,6 @@ Route::prefix('/api')->group(function () {
     Route::get('/getUserPref/{refresh}', [ProductController::class, 'getUserPreferences']);
     Route::post('/setUserPref', [ProductController::class, 'setUserPreferences']);
 
-
     // CART
     Route::get('/getAllUserCart', [CartController::class, 'getAllUserCart']);
     Route::post('/addToCart', [CartController::class, 'addToCart']);
