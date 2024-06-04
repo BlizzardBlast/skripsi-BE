@@ -52,12 +52,16 @@ class ProductController extends Controller
 
     public function getProductImage($id)
     {
-        $filePath = Storage::url("public/coffeeImage/" . $id . "C.png");
+        try {
+            $filePath = Storage::url("public/coffeeImage/" . $id . "C.png");
 
-        $fileContent = file_get_contents($filePath);
-        $base64 = 'data:image/png;base64,' . base64_encode($fileContent);
+            $fileContent = file_get_contents($filePath);
+            $base64 = 'data:image/png;base64,' . base64_encode($fileContent);
 
-        return response()->json(['image_base64' => $base64], 200);
+            return response()->json(['image_base64' => $base64], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to get product image.', 'error' => $e->getMessage()], 400);
+        }
     }
 
     public function setUserPreferences(Request $request)
