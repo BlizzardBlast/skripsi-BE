@@ -52,7 +52,7 @@ class ProductController extends Controller
 
     public function getProductImage($id)
     {
-        $filePath = storage_path("app\public\coffeeImage\\" . $id . "C.png");
+        $filePath = Storage::url("public/coffeeImage/" . $id . "C.png");
 
         $fileContent = file_get_contents($filePath);
         $base64 = 'data:image/png;base64,' . base64_encode($fileContent);
@@ -169,7 +169,7 @@ class ProductController extends Controller
 
             if ($request->hasFile('image')) {
                 $coffeePicture = $request->file('image');
-                $coffeePicture->storeAs('public/coffeeImage', $pictureFilename);
+                $coffeePicture->storeAs('public/coffeeImage', $pictureFilename, 's3');
 
                 $validatedData['image'] = $pictureFilename;
             }
@@ -244,7 +244,7 @@ class ProductController extends Controller
                 }
 
                 $coffeePicture = $request->file('new_image');
-                $coffeePicture->storeAs('public/coffeeImage', $pictureFilename);
+                $coffeePicture->storeAs('public/coffeeImage', $pictureFilename, 's3');
                 $updateData['image'] = $pictureFilename;
             }
 
