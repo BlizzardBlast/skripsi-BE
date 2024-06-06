@@ -274,8 +274,9 @@ class ProductController extends Controller
             if ($product->image) {
                 Storage::delete('public/coffeeImage/' . $product->image);
             }
-            $product->delete();
             ProductAttribute::where('product_id', $id)->delete();
+            $product->delete();
+            
 
             return response()->json(['message' => 'Successfully deleted product'], 200);
         } catch (Exception $e) {
