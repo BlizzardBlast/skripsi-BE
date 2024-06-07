@@ -106,11 +106,29 @@ class ProductController extends Controller
                 ->get()
                 ->toArray();
 
-            $results = Product::select('*')
-                ->whereIn('id', $ids)
-                ->get();
+            $allProduct = Product::whereIn('id', $ids)
+                ->with('productAttribute:id,acidity,flavor,aftertaste,sweetness,product_id')
+                ->get(['id', 'name', 'subname', 'origin', 'type', 'price', 'description', 'created_at', 'updated_at']);
 
-            return response()->json($results, 200);
+            $allProduct = $allProduct->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'subname' => $product->subname,
+                    'origin' => $product->origin,
+                    'type' => $product->type,
+                    'price' => $product->price,
+                    'description' => $product->description,
+                    'acidity' => $product->productAttribute->acidity,
+                    'flavor' => $product->productAttribute->flavor,
+                    'aftertaste' => $product->productAttribute->aftertaste,
+                    'sweetness' => $product->productAttribute->sweetness,
+                    'created_at' => $product->created_at,
+                    'updated_at' => $product->updated_at,
+                ];
+            });
+
+            return response()->json($allProduct, 200);
         } else {
             $user = Auth::user();
             $preference = json_decode($user->preference, true);
@@ -141,7 +159,29 @@ class ProductController extends Controller
                 Preference::create($data);
             }
 
-            return response()->json($results, 200);
+            $allProduct = Product::whereIn('id', $ids)
+                ->with('productAttribute:id,acidity,flavor,aftertaste,sweetness,product_id')
+                ->get(['id', 'name', 'subname', 'origin', 'type', 'price', 'description', 'created_at', 'updated_at']);
+
+            $allProduct = $allProduct->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'subname' => $product->subname,
+                    'origin' => $product->origin,
+                    'type' => $product->type,
+                    'price' => $product->price,
+                    'description' => $product->description,
+                    'acidity' => $product->productAttribute->acidity,
+                    'flavor' => $product->productAttribute->flavor,
+                    'aftertaste' => $product->productAttribute->aftertaste,
+                    'sweetness' => $product->productAttribute->sweetness,
+                    'created_at' => $product->created_at,
+                    'updated_at' => $product->updated_at,
+                ];
+            });
+
+            return response()->json($allProduct, 200);
         }
     }
 
