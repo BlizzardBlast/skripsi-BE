@@ -32,8 +32,8 @@ class PromoController extends Controller
         }
 
         $promo = Promo::where('promo_code', $promo_code)
-            ->where('promo_start_date', '<=', Carbon::now()) // Check promo_start_date
-            ->where('promo_expiry_date', '>=', Carbon::now())
+            ->where('promo_start_date', '<=', Carbon::now()->startOfDay()) // Check promo_start_date
+            ->where('promo_expiry_date', '>=', Carbon::now()->startOfDay())
             ->first();
 
         if (
