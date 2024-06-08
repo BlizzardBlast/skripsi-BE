@@ -51,7 +51,7 @@ class CartController extends Controller
         $valid = $request->validate([
             'productId' => ['required', 'integer'],
             'quantity' => ['required', 'integer'],
-            'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])]
+            'roasting_type' => ['required', 'string', Rule::in(['light', 'medium', 'dark'])]
         ]);
 
         //KALO UDAH ADA PRODUCTNYA
@@ -182,7 +182,7 @@ class CartController extends Controller
 
         $valid = $request->validate([
             'productId' => ['required', 'integer'],
-            'roasting_type' => ['required', 'string', Rule::in(['low', 'medium', 'high'])]
+            'roasting_type' => ['required', 'string', Rule::in(['light', 'medium', 'dark'])]
         ]);
 
     Cart::where([
