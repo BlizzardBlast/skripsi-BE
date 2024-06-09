@@ -65,7 +65,7 @@ class OrderController extends Controller
 
         $promoController = new PromoController();
         $discountAmount = $promoController->verifyPromoAndReturnDiscount($validatedData['promo_code'], $total_price);
-        $discountAmount = $discountAmount == null ? 0 : $discountAmount; // if invalid promocode
+        $discountAmount = is_integer($discountAmount) ? $discountAmount : 0; // if invalid promocode
 
         // Create the order
         $order = Order::create([
