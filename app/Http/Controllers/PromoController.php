@@ -38,15 +38,14 @@ class PromoController extends Controller
             ->first();
         $exceeded_max_use = $promo->max_use > $this->getPromoUsage($promo->id);
         $exceeded_max_use_per_user = $promo->max_use_per_user > $this->getPromoUsage($promo->id, Auth::user()->id);
+        $minimum_not_met = isset($promo->minimum) && $total_price < $promo->minimum;
 
-        if (!$promo) {return "NP";} // No Promo
-        else if ($exceeded_max_use) {return "MU";} // Max Use
-        else if ($exceeded_max_use_per_user) {return "MUU";} // Max Use per User
-        else 
+        if (!$promo) {return "NP";} // No Promo found
+        else if ($exceeded_max_use) {return "MU";} // Max Use exceeded
+        else if ($exceeded_max_use_per_user) {return "MUU";} // Max Use per User exceeded
+        else if ($minimum_not_met) {return "MP";} // Minimum Price not met
+        else
         {
-            if (isset($promo->minimum) && $total_price < $promo->minimum) {
-                return "MP"; // Minium Price
-            }
             $discountAmount = ($total_price * $promo->discount) / 100;
 
             if ($promo->maximum > 0 && $discountAmount > $promo->maximum) {
