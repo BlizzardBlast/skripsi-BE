@@ -43,13 +43,13 @@ class PromoController extends Controller
         if (!$promo) {
             return "NP";
         } // No Promo found
-        else if ($exceeded_max_use) {
+        elseif ($exceeded_max_use) {
             return "MU";
         } // Max Use exceeded
-        else if ($exceeded_max_use_per_user) {
+        elseif ($exceeded_max_use_per_user) {
             return "MUU";
         } // Max Use per User exceeded
-        else if ($minimum_not_met) {
+        elseif ($minimum_not_met) {
             return "MP";
         } // Minimum Price not met
         else {
