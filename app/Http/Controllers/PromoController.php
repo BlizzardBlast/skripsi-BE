@@ -36,16 +36,23 @@ class PromoController extends Controller
             ->where('promo_start_date', '<=', Carbon::now()->startOfDay()) // Check promo_start_date
             ->where('promo_expiry_date', '>=', Carbon::now()->startOfDay())
             ->first();
-        $exceeded_max_use = $promo->max_use > $this->getPromoUsage($promo->id);
-        $exceeded_max_use_per_user = $promo->max_use_per_user > $this->getPromoUsage($promo->id, Auth::user()->id);
+        $exceeded_max_use = $promo->max_use < $this->getPromoUsage($promo->id);
+        $exceeded_max_use_per_user = $promo->max_use_per_user < $this->getPromoUsage($promo->id, Auth::user()->id);
         $minimum_not_met = isset($promo->minimum) && $total_price < $promo->minimum;
 
-        if (!$promo) {return "NP";} // No Promo found
-        else if ($exceeded_max_use) {return "MU";} // Max Use exceeded
-        else if ($exceeded_max_use_per_user) {return "MUU";} // Max Use per User exceeded
-        else if ($minimum_not_met) {return "MP";} // Minimum Price not met
-        else
-        {
+        if (!$promo) {
+            return "NP";
+        } // No Promo found
+        else if ($exceeded_max_use) {
+            return "MU";
+        } // Max Use exceeded
+        else if ($exceeded_max_use_per_user) {
+            return "MUU";
+        } // Max Use per User exceeded
+        else if ($minimum_not_met) {
+            return "MP";
+        } // Minimum Price not met
+        else {
             $discountAmount = ($total_price * $promo->discount) / 100;
 
             if ($promo->maximum > 0 && $discountAmount > $promo->maximum) {
@@ -78,13 +85,13 @@ class PromoController extends Controller
             } elseif ($discountAmount == "NP") {
                 return response()->json(['message' => 'Promo Denied. Invalid promo code.'], 400);
             } elseif ($discountAmount == "MU") {
-                return response()->json(['message' => 'Promo Denied. Promo has expired.'], 400);
+                return response()->json(['message' => 'Promo Denied. Promo cannot be used anymore.'], 400);
             } elseif ($discountAmount == "MUU") {
-                return response()->json(['message' => 'Promo Denied. You cannot use this promo any more.'], 400);
+                return response()->json(['message' => 'Promo Denied. You cannot use this promo anymore.'], 400);
             } elseif ($discountAmount == "MP") {
                 return response()->json(['message' => 'Promo Denied. Minimum total price not met.'], 400);
             } else {
-                return response()->json(['message' => 'Promo Denied. Unkown Error.'], 400);
+                return response()->json(['message' => 'Promo Denied. Unknown Error.'], 400);
             }
         } catch (Exception) {
             return response()->json(['message' => 'Promo Denied. An error occurred.'], 400);
