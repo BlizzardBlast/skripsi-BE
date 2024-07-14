@@ -22,8 +22,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'Rwanda',
             'type' => 'Arabica',
             'price' => '5000',
-            'description' => 'Amazing coffees from Rwanda often have a fruitiness and freshness reminiscent of red
-            apples or red grapes. Berry fruit flavours and floral qualities are also fairly common.'
+            'description' => 'Amazing coffees from Rwanda often have a fruitiness and freshness reminiscent of red apples or red grapes. Berry fruit flavours and floral qualities are also fairly common.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '1',
@@ -39,8 +38,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'Tanzania',
             'type' => 'Robusta',
             'price' => '7000',
-            'description' => 'Tanzania coffee tends to be complex, with bright and lively acidity and often with berry and fruity flavours,
-            Tanzanian coffees can be juicy, interesting and delicious.'
+            'description' => 'Tanzania coffee tends to be complex, with bright and lively acidity and often with berry and fruity flavours, Tanzanian coffees can be juicy, interesting and delicious.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '2',
@@ -56,8 +54,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'Uganda',
             'type' => 'Arabica',
             'price' => '9000',
-            'description' => 'Exceptional coffee from Uganda is still relatively rare, but the best cups are sweet, full
-            of dark fruits and have a clean finish.'
+            'description' => 'Exceptional coffee from Uganda is still relatively rare, but the best cups are sweet, full of dark fruits and have a clean finish.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '3',
@@ -73,10 +70,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'China',
             'type' => 'Bourbon',
             'price' => '9000',
-            'description' => 'The better coffees coming from China have a pleasant sweetness and fruitiness, though
-            many still carry a little woodiness or earthiness too. Relatively low in acidity and often
-            relatively full-bodied.
-            '
+            'description' => 'The better coffees coming from China have a pleasant sweetness and fruitiness, though many still carry a little woodiness or earthiness too. Relatively low in acidity and often relatively full-bodied.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '4',
@@ -92,8 +86,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'Indonesia',
             'type' => 'Bourbon',
             'price' => '9000',
-            'description' => 'Semi-washed coffees tend to be very heavy bodied, earthy, woody and spicy with very
-            little acidity.'
+            'description' => 'Semi-washed coffees tend to be very heavy bodied, earthy, woody and spicy with very little acidity.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '5',
@@ -109,8 +102,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'Honduras',
             'type' => 'Robusta',
             'price' => '9000',
-            'description' => 'A range of different flavours are found in Honduran coffees, but the best often have a
-            complex fruity quality, and a lively, juicy acidity.'
+            'description' => 'A range of different flavours are found in Honduran coffees, but the best often have a complex fruity quality, and a lively, juicy acidity.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '6',
@@ -126,9 +118,7 @@ class ProductsSeeder extends Seeder
             'origin' => 'Mexico',
             'type' => 'Bourbon',
             'price' => '9000',
-            'description' => 'Mexico coffee consist of quite a range of coffees across its regions, from lighter-bodied,
-            delicate coffees through to sweeter coffees with caramel, toffee or chocolate flavours in
-            the cup.'
+            'description' => 'Mexico coffee consist of quite a range of coffees across its regions, from lighter-bodied, delicate coffees through to sweeter coffees with caramel, toffee or chocolate flavours in the cup.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '7',
@@ -142,10 +132,9 @@ class ProductsSeeder extends Seeder
             'name' => 'Nicaragua Jinotega',
             'subname' => 'Canis Charles',
             'origin' => 'Nicaragua',
-            'type' => 'Caturra',
+            'type' => 'Arabica',
             'price' => '9000',
-            'description' => 'Nicaragua coffee are typically quite complex
-            and capable of pleasing fruit-like flavours and clean acidity.'
+            'description' => 'Nicaragua coffee are typically quite complex and capable of pleasing fruit-like flavours and clean acidity.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '8',
@@ -161,30 +150,10 @@ class ProductsSeeder extends Seeder
             'origin' => 'Peru',
             'type' => 'Bourbon',
             'price' => '9000',
-            'description' => 'Typically Peruvian coffees have been clean, but a little soft and flat. They are sweet and
-            relatively heavy bodied but not very complex. Increasingly there are distinctive and
-            juicier coffees becoming available.',
+            'description' => 'Typically Peruvian coffees have been clean, but a little soft and flat. They are sweet and relatively heavy bodied but not very complex. Increasingly there are distinctive and juicier coffees becoming available.'
         ]);
         DB::table('product_attributes')->insert([
             'product_id' => '9',
-            'acidity' => 'medium',
-            'flavor' => 'earthy',
-            'aftertaste' => 'complex',
-            'sweetness' => 'noticeable',
-        ]);
-
-        DB::table('products')->insert([
-            'name' => 'Peru Cajamarca',
-            'subname' => 'Canis Charles',
-            'origin' => 'Peru',
-            'type' => 'Bourbon',
-            'price' => '9000',
-            'description' => 'Typically Peruvian coffees have been clean, but a little soft and flat. They are sweet and
-            relatively heavy bodied but not very complex. Increasingly there are distinctive and
-            juicier coffees becoming available.'
-        ]);
-        DB::table('product_attributes')->insert([
-            'product_id' => '10',
             'acidity' => 'medium',
             'flavor' => 'earthy',
             'aftertaste' => 'short',
@@ -195,12 +164,12 @@ class ProductsSeeder extends Seeder
             'name' => 'Kopi Luwak',
             'subname' => 'Canis Charles',
             'origin' => 'Indonesia',
-            'type' => 'Arabica/Robusta',
+            'type' => 'Arabica',
             'price' => '9000',
-            'description' => ''
+            'description' => "Kopi luwak, or civet coffee, is a rare and expensive coffee made from beans eaten and excreted by the Asian palm civet. This unique process, involving fermentation in the civet's digestive system, is believed to produce a smoother, less acidic coffee with a distinct flavor. The beans are collected, cleaned, and roasted, making them a luxury item. However, ethical concerns about the treatment of civets in production have led to calls for more humane practices."
         ]);
         DB::table('product_attributes')->insert([
-            'product_id' => '11',
+            'product_id' => '10',
             'acidity' => 'low',
             'flavor' => 'earthy',
             'aftertaste' => 'complex',
@@ -213,11 +182,10 @@ class ProductsSeeder extends Seeder
             'origin' => 'Venezuela',
             'type' => 'Bourbon',
             'price' => '9000',
-            'description' => 'The better coffees from Venezuela are quite sweet, a little low in acidity and relatively
-            rich in terms of mouthfeel and texture.'
+            'description' => 'The better coffees from Venezuela are quite sweet, a little low in acidity and relatively rich in terms of mouthfeel and texture.'
         ]);
         DB::table('product_attributes')->insert([
-            'product_id' => '12',
+            'product_id' => '11',
             'acidity' => 'low',
             'flavor' => 'chocolate',
             'aftertaste' => 'lingering',
@@ -230,11 +198,10 @@ class ProductsSeeder extends Seeder
             'origin' => 'Hawai USA',
             'type' => 'Arabica',
             'price' => '9000',
-            'description' => 'Hawaiian coffee, particularly Kona coffee from the Big Island of Hawaii,
-            is renowned for its unique characteristics that make it highly sought after by coffee enthusiasts worldwide.'
+            'description' => 'Hawaiian coffee, particularly Kona coffee from the Big Island of Hawaii, is renowned for its unique characteristics that make it highly sought after by coffee enthusiasts worldwide.'
         ]);
         DB::table('product_attributes')->insert([
-            'product_id' => '13',
+            'product_id' => '12',
             'acidity' => 'medium',
             'flavor' => 'nutty',
             'aftertaste' => 'lingering',
@@ -250,7 +217,7 @@ class ProductsSeeder extends Seeder
             'description' => 'Colombian coffee is renowned worldwide for its exceptional quality, rich flavor, and balanced characteristics.'
         ]);
         DB::table('product_attributes')->insert([
-            'product_id' => '14',
+            'product_id' => '13',
             'acidity' => 'medium',
             'flavor' => 'nutty',
             'aftertaste' => 'short',
