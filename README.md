@@ -40,7 +40,7 @@ php artisan key:generate
 **6. Set application url**
 - update the .env file with the application url
 	```
-	APP_URL=http://localhost
+	APP_URL=your_app_url
 	```
 
 **7. Serve**
